@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+
 import io.github.beachball.Main;
+
 
 /** Launches the Android application. */
 public class AndroidLauncher extends AndroidApplication {
