@@ -45,23 +45,27 @@ public class Main extends Game {
 
     public SpriteBatch batch;
 
+    public SpriteBatch batch1;
+
     public GameScreen gameScreen;
 
 
     @Override
     public void create() {
-        Box2D.init();
-        world = new World(new Vector2(0, -10), true);
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
-        batch = new SpriteBatch();
-        gameScreen = new GameScreen(this);
-        setScreen(gameScreen);
+        Box2D.init(); //поключаем физику
+        world = new World(new Vector2(0, -10), true);  // делаем мир
+        cam = new OrthographicCamera();//камера
+        cam.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);// настройка камеры
+        batch = new SpriteBatch(); // штука чтобы отрисовать модель
+        gameScreen = new GameScreen(this);//ставим экран
+        setScreen(gameScreen);//ставим экран
+        batch1 = new SpriteBatch();// это не нужно
     }
 
     @Override
     public void dispose() {
         batch.dispose();
+        batch1.dispose();       // удаление не нужных объектов работает само
     }
 
     public void stepWorld() {
@@ -70,7 +74,7 @@ public class Main extends Game {
 
         if (accumulator >= STEP_TIME) {
             accumulator -= STEP_TIME;
-            world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+            world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS); // функция просчитывает один шаг физики  |   нужно чтобы не было рассинхрона
         }
     }
 

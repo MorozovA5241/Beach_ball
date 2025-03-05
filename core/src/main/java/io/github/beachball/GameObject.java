@@ -6,12 +6,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class GameObject {
-    String texturePath;
+    String texturePath; // текстура
 
-    int width;
+    int width; // ширина высота
     int height;
 
     Body body;
@@ -21,14 +22,14 @@ public class GameObject {
         this.height = height;
 
         texture = new Texture(texturePath);
-        body = createBody(x, y, world);
+        body = createBody(x, y, world); // в конструкторе сразу создаем новое тело
     }
 
     private Body createBody(float x, float y, World world) {
         BodyDef def = new BodyDef(); // def - defenition (определение) это объект, который содержит все данные, необходимые для посторения тела
 
         def.type = BodyDef.BodyType.DynamicBody; // тип тела, который имеет массу и может быть подвинут под действием сил
-        def.fixedRotation = true; // запрещаем телу вращаться вокруг своей оси
+        def.fixedRotation = false; // запрещаем телу вращаться вокруг своей оси
         Body body = world.createBody(def); // создаём в мире world объект по описанному нами определению
 
         CircleShape circleShape = new CircleShape(); // задаём коллайдер в форме круга
@@ -47,8 +48,10 @@ public class GameObject {
 
     }
 
+
+
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, getX() - (width / 2f), getY() - (height / 2f), width, height);
+        batch.draw(texture, getX() - (width / 2f), getY() - (height / 2f), width, height); // рисуем спрайт
     }
 
     private int getY() {

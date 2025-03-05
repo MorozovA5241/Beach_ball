@@ -17,10 +17,10 @@ public class GameSettings {
 
     // Object sizes
 
-    public static final int SHIP_WIDTH = 150;
-    public static final int SHIP_HEIGHT = 150;
+    public static final int OBJECT_WIDTH = 3500 ;
+    public static final int OBJECT_HEIGHT = 100;
 
     // Images for textures
 
-    public static final String OBJECT_IMG_PATH = "smileface.png";
+    public static final String OBJECT_IMG_PATH = "sticker.png";
 }
