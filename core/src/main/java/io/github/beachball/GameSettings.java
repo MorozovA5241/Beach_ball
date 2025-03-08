@@ -22,5 +22,5 @@ public class GameSettings {
 
     // Images for textures
 
-    public static final String OBJECT_IMG_PATH = "sticker.png";
+    public static final String OBJECT_IMG_PATH = "smileface.png";
 }

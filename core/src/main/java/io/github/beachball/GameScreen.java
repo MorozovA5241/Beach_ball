@@ -4,11 +4,14 @@ import static io.github.beachball.GameSettings.OBJECT_HEIGHT;
 import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 import static io.github.beachball.GameSettings.OBJECT_WIDTH;
 import static io.github.beachball.GameSettings.SCALE;
+import static io.github.beachball.GameSettings.SCREEN_HEIGHT;
 import static io.github.beachball.GameSettings.SCREEN_WIDTH;
 import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -31,6 +34,17 @@ public class GameScreen extends ScreenAdapter {
         main.cam.update();
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
+
+        if (Gdx.input.isTouched()) {
+            if(Gdx.input.getX()>SCREEN_WIDTH/2) {
+                gameObject.move(10.0f);
+            }
+            else{
+                gameObject.move(-10.0f);
+            }
+        }
+
+
 
         main.batch.begin();
         gameObject.draw(main.batch);

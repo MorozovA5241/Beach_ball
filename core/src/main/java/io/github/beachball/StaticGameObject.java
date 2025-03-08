@@ -1,6 +1,7 @@
 package io.github.beachball;
 
 import static io.github.beachball.GameSettings.SCALE;
+import static io.github.beachball.GameSettings.SCREEN_WIDTH;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -35,18 +36,12 @@ public class StaticGameObject {
         def.fixedRotation = true; // запрещаем телу вращаться вокруг своей оси
         Body body = world.createBody(def); // создаём в мире world объект по описанному нами определению
 
-        CircleShape boxShape = new CircleShape(); // это надо поменять на прямоугольник
-        boxShape.setRadius(10 * 0.05f / 2f + 3f); //
+        PolygonShape boxShape = new PolygonShape(); // это надо поменять на прямоугольник
+        boxShape.setAsBox(1000,2 ); //
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = boxShape; // устанавливаем коллайдер
-        fixtureDef.density = 0.1f; // устанавливаем плотность тела
-        fixtureDef.friction = 1f; // устанвливаем коэффициент трения
-
-        body.createFixture(fixtureDef); // создаём fixture по описанному нами определению
-        boxShape.dispose(); // так как коллайдер уже скопирован в fixutre, то  может быть отчищена, чтобы не забивать оперативную память.
-
-        body.setTransform(x * SCALE, y*SCALE, 0); // устанавливаем позицию тела по координатным осям и угол поворота
+        body.createFixture(boxShape, 0.0f);
+        boxShape.dispose();
         return body;
     }
 

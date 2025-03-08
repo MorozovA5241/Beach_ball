@@ -46,7 +46,7 @@ public class Main extends Game {
     public SpriteBatch batch;
 
     public SpriteBatch batch1;
-
+    Vector3 touch;
     public GameScreen gameScreen;
 
 
@@ -61,6 +61,8 @@ public class Main extends Game {
         setScreen(gameScreen);//ставим экран
         batch1 = new SpriteBatch();// это не нужно
     }
+
+
 
     @Override
     public void dispose() {
