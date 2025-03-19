@@ -50,7 +50,7 @@ public class GameObject {
     }
 
     public void move(float force){
-        body.applyForceToCenter(force, 0, true);
+        body.setLinearVelocity(force, body.getLinearVelocity().y);
     }
 
     public void draw(SpriteBatch batch) {

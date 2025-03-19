@@ -11,20 +11,24 @@ import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen extends ScreenAdapter {
     Main main;
     GameObject gameObject;
     StaticGameObject box;
+    Button button;
     public GameScreen(Main main) {
         this.main = main;
 
         //gameObject = new GameObject(SCREEN_WIDTH / 2, 500, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);
         gameObject = new GameObject(SCREEN_WIDTH / 2, 800, 200, 300 , main.world, OBJECT_IMG_PATH); // делаем динамический объект
-        box = new StaticGameObject(SCREEN_WIDTH / 2, 200, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);  // делаем статический объект
+        box = new StaticGameObject(SCREEN_WIDTH / 2, 200, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);
+        button = new Button();// делаем статический объект
     }
 
     @Override
@@ -43,8 +47,14 @@ public class GameScreen extends ScreenAdapter {
                 gameObject.move(-10.0f);
             }
         }
+        else
+            gameObject.move(0);
 
+        main.batch.begin();
+        main.batch.draw(new Texture(OBJECT_IMG_PATH), 10.0f, 10.0f);
+        main.batch.end();
 
+        
 
         main.batch.begin();
         gameObject.draw(main.batch);
