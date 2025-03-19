@@ -27,8 +27,8 @@ public class GameScreen extends ScreenAdapter {
 
         //gameObject = new GameObject(SCREEN_WIDTH / 2, 500, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);
         gameObject = new GameObject(SCREEN_WIDTH / 2, 800, 200, 300 , main.world, OBJECT_IMG_PATH); // делаем динамический объект
-        box = new StaticGameObject(SCREEN_WIDTH / 2, 200, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);
-        button = new Button();// делаем статический объект
+        box = new StaticGameObject(SCREEN_WIDTH / 2, 200, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);// делаем статический объект
+
     }
 
     @Override
@@ -50,11 +50,9 @@ public class GameScreen extends ScreenAdapter {
         else
             gameObject.move(0);
 
-        main.batch.begin();
-        main.batch.draw(new Texture(OBJECT_IMG_PATH), 10.0f, 10.0f);
-        main.batch.end();
 
-        
+
+
 
         main.batch.begin();
         gameObject.draw(main.batch);
