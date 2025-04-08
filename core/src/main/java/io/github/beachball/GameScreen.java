@@ -10,24 +10,35 @@ import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import io.github.beachball.components.ButtonView;
+
 public class GameScreen extends ScreenAdapter {
     Main main;
     GameObject gameObject;
     StaticGameObject box;
-    Button button;
+    ButtonView rightButton;
+    ButtonView leftButton;
+    ButtonView jumpButton;
+
     public GameScreen(Main main) {
         this.main = main;
 
-        //gameObject = new GameObject(SCREEN_WIDTH / 2, 500, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);
+
+
         gameObject = new GameObject(SCREEN_WIDTH / 2, 800, 200, 300 , main.world, OBJECT_IMG_PATH); // делаем динамический объект
         box = new StaticGameObject(SCREEN_WIDTH / 2, 200, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);// делаем статический объект
+        rightButton = new ButtonView(100, 100, 80, 120, OBJECT_IMG_PATH);
+        jumpButton = new ButtonView(600, 100, 80, 120, OBJECT_IMG_PATH);
+        leftButton = new ButtonView(500, 100, 80, 120, OBJECT_IMG_PATH);
 
     }
 
@@ -39,28 +50,38 @@ public class GameScreen extends ScreenAdapter {
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
 
-        if (Gdx.input.isTouched()) {
-            if(Gdx.input.getX()>SCREEN_WIDTH/2) {
-                gameObject.move(10.0f);
-            }
-            else{
-                gameObject.move(-10.0f);
-            }
-        }
-        else
-            gameObject.move(0);
-
-
-
-
 
         main.batch.begin();
         gameObject.draw(main.batch);
-        main.batch.end();
-
-        main.batch.begin();
+        rightButton.draw(main.batch);
+        leftButton.draw(main.batch);
+        jumpButton.draw(main.batch);
         box.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
+
+        handleInput();
+    }
+
+    private void handleInput() {
+        if (Gdx.input.isTouched()) {
+            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+            if (rightButton.isHit(main.touch.x, main.touch.y)) {
+                gameObject.move(-10);
+            }
+
+            else if (leftButton.isHit(main.touch.x, main.touch.y)) {
+                gameObject.move(10);
+            }
+            else if (jumpButton.isHit(main.touch.x, main.touch.y)){
+                gameObject.jump();
+            }
+
+        }
+        else{
+            gameObject.move(0);
+        }
+
     }
 
 }

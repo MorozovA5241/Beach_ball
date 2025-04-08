@@ -53,6 +53,10 @@ public class GameObject {
         body.setLinearVelocity(force, body.getLinearVelocity().y);
     }
 
+    public void jump(){
+        body.applyForceToCenter(0, 10000, true);
+    }
+
     public void draw(SpriteBatch batch) {
         batch.draw(texture, getX() - (width / 2f), getY() - (height / 2f), width, height); // рисуем спрайт
     }

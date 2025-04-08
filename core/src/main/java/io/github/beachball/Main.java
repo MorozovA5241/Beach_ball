@@ -6,7 +6,7 @@ import static io.github.beachball.GameSettings.SCREEN_WIDTH;
 import static io.github.beachball.GameSettings.STEP_TIME;
 import static io.github.beachball.GameSettings.VELOCITY_ITERATIONS;
 
- 
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
@@ -38,13 +38,12 @@ public class Main extends Game {
     @Override
     public void create() {
         Box2D.init(); //поключаем физику
-        world = new World(new Vector2(0, -10), true);  // делаем мир
+        world = new World(new Vector2(0, -90), true);  // делаем мир
         cam = new OrthographicCamera();//камера
         cam.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);// настройка камеры
         batch = new SpriteBatch(); // штука чтобы отрисовать модель
         gameScreen = new GameScreen(this);//ставим экран
-        setScreen(gameScreen);//ставим экран
-        batch1 = new SpriteBatch();// это не нужно
+        setScreen(gameScreen);//ставим экраy
     }
 
 
