@@ -3,8 +3,8 @@ package io.github.beachball;
 public class GameSettings {
     // Device settings
 
-    public static final int SCREEN_WIDTH = 720;
-    public static final int SCREEN_HEIGHT = 1280;
+    public static final int SCREEN_WIDTH = 1280;
+    public static final int SCREEN_HEIGHT = 720;
 
     // Physics settings
 
@@ -23,4 +23,9 @@ public class GameSettings {
     // Images for textures
 
     public static final String OBJECT_IMG_PATH = "smileface.png";
+    public static final String BUTTON_IMG_PATH = "button.png";
+
+
+    public static final short PLAYER_BIT = 2;
+    public static final short FLOOR_BIT = 4;
 }

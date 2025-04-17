@@ -1,8 +1,11 @@
 package io.github.beachball;
 
+import static io.github.beachball.GameSettings.BUTTON_IMG_PATH;
+import static io.github.beachball.GameSettings.FLOOR_BIT;
 import static io.github.beachball.GameSettings.OBJECT_HEIGHT;
 import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 import static io.github.beachball.GameSettings.OBJECT_WIDTH;
+import static io.github.beachball.GameSettings.PLAYER_BIT;
 import static io.github.beachball.GameSettings.SCALE;
 import static io.github.beachball.GameSettings.SCREEN_HEIGHT;
 import static io.github.beachball.GameSettings.SCREEN_WIDTH;
@@ -20,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import io.github.beachball.components.ButtonView;
+import io.github.beachball.managers.ContactManager;
 
 public class GameScreen extends ScreenAdapter {
     Main main;
@@ -28,17 +32,18 @@ public class GameScreen extends ScreenAdapter {
     ButtonView rightButton;
     ButtonView leftButton;
     ButtonView jumpButton;
+    ContactManager contactManager;
 
     public GameScreen(Main main) {
         this.main = main;
 
+        contactManager = new ContactManager(main.world);
 
-
-        gameObject = new GameObject(SCREEN_WIDTH / 2, 800, 200, 300 , main.world, OBJECT_IMG_PATH); // делаем динамический объект
-        box = new StaticGameObject(SCREEN_WIDTH / 2, 200, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH);// делаем статический объект
-        rightButton = new ButtonView(100, 100, 80, 120, OBJECT_IMG_PATH);
-        jumpButton = new ButtonView(600, 100, 80, 120, OBJECT_IMG_PATH);
-        leftButton = new ButtonView(500, 100, 80, 120, OBJECT_IMG_PATH);
+        gameObject = new GameObject(SCREEN_WIDTH / 2, 800, 200, 300 , main.world, OBJECT_IMG_PATH, PLAYER_BIT); // делаем динамический объект
+        box = new StaticGameObject(SCREEN_WIDTH / 2, 20, OBJECT_WIDTH, OBJECT_HEIGHT , main.world, OBJECT_IMG_PATH, FLOOR_BIT);// делаем статический объект
+        rightButton = new ButtonView(20, 100, 80, 220, OBJECT_IMG_PATH);
+        jumpButton = new ButtonView(600, 100, 80, 220, BUTTON_IMG_PATH);
+        leftButton = new ButtonView(120, 100, 80, 220, OBJECT_IMG_PATH);
 
     }
 
@@ -49,8 +54,6 @@ public class GameScreen extends ScreenAdapter {
         main.cam.update();
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
-
-
         main.batch.begin();
         gameObject.draw(main.batch);
         rightButton.draw(main.batch);
@@ -59,10 +62,11 @@ public class GameScreen extends ScreenAdapter {
         box.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
 
-        handleInput();
+        handleMovementInput();
+        handleJumpInput();
     }
 
-    private void handleInput() {
+    private void handleMovementInput() {
         if (Gdx.input.isTouched()) {
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
@@ -73,15 +77,22 @@ public class GameScreen extends ScreenAdapter {
             else if (leftButton.isHit(main.touch.x, main.touch.y)) {
                 gameObject.move(10);
             }
-            else if (jumpButton.isHit(main.touch.x, main.touch.y)){
-                gameObject.jump();
-            }
+            else
+                gameObject.move(0);
 
         }
-        else{
+        else
             gameObject.move(0);
-        }
 
+
+
+    }
+    private void handleJumpInput(){
+        if (Gdx.input.justTouched()) {
+            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            if(jumpButton.isHit(main.touch.x, main.touch.y))
+                gameObject.jump();
+        }
     }
 
 }

@@ -33,6 +33,7 @@ public class Main extends Game {
     public SpriteBatch batch1;
     Vector3 touch;
     public GameScreen gameScreen;
+    public MenuScreen menuScreen;
 
 
     @Override
@@ -43,7 +44,9 @@ public class Main extends Game {
         cam.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);// настройка камеры
         batch = new SpriteBatch(); // штука чтобы отрисовать модель
         gameScreen = new GameScreen(this);//ставим экран
-        setScreen(gameScreen);//ставим экраy
+
+        menuScreen = new MenuScreen(this);
+        setScreen(menuScreen);//ставим экраy
     }
 
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -18,13 +19,13 @@ public class StaticGameObject {
 
     int width;
     int height;
-
+    public short cBits;
     Body body;
     Texture texture;
-    StaticGameObject(int x, int y, int width, int height, World world, String texturePath) {
+    StaticGameObject(int x, int y, int width, int height, World world, String texturePath, short cBits) {
         this.width = width;
         this.height = height;
-
+        this.cBits = cBits;
         texture = new Texture(texturePath);
         body = createStaticBody(x, y, world);
     }
@@ -40,8 +41,14 @@ public class StaticGameObject {
         boxShape.setAsBox(1000,2 ); //
 
         FixtureDef fixtureDef = new FixtureDef();
-        body.createFixture(boxShape, 0.0f);
+        fixtureDef.filter.categoryBits = cBits;
+        fixtureDef.shape = boxShape;
+
+        Fixture fixture = body.createFixture(fixtureDef); // создаём fixture по описанному нами определению
+        fixture.setUserData(this);
+
         boxShape.dispose();
+        body.setTransform(x * SCALE, y * SCALE, 0);
         return body;
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -15,16 +16,20 @@ public class GameObject {
 
     int width; // ширина высота
     int height;
-
+    public short cBits;
     Body body;
     Texture texture;
-    GameObject(int x, int y, int width, int height, World world, String texturePath) {
+    int jumps;
+
+    GameObject(int x, int y, int width, int height, World world, String texturePath, short cBits) {
+        jumps = 0;
         this.width = width;
         this.height = height;
-
+        this.cBits = cBits;
         texture = new Texture(texturePath);
         body = createBody(x, y, world); // в конструкторе сразу создаем новое тело
     }
+
 
     private Body createBody(float x, float y, World world) {
         BodyDef def = new BodyDef(); // def - defenition (определение) это объект, который содержит все данные, необходимые для посторения тела
@@ -40,8 +45,12 @@ public class GameObject {
         fixtureDef.shape = circleShape; // устанавливаем коллайдер
         fixtureDef.density = 0.1f; // устанавливаем плотность тела
         fixtureDef.friction = 1000f; // устанвливаем коэффициент трения
+        fixtureDef.filter.categoryBits = cBits;
 
-        body.createFixture(fixtureDef); // создаём fixture по описанному нами определению
+
+        Fixture fixture = body.createFixture(fixtureDef); // создаём fixture по описанному нами определению
+        fixture.setUserData(this);
+
         circleShape.dispose(); // так как коллайдер уже скопирован в fixutre, то circleShape может быть отчищена, чтобы не забивать оперативную память.
 
         body.setTransform(x * 0.05f, y * 0.05f, 0); // устанавливаем позицию тела по координатным осям и угол поворота
@@ -54,8 +63,11 @@ public class GameObject {
     }
 
     public void jump(){
-        body.applyForceToCenter(0, 10000, true);
+        if(jumps<=1)
+            body.applyForceToCenter(0, 50000, true);
+        jumps++;
     }
+
 
     public void draw(SpriteBatch batch) {
         batch.draw(texture, getX() - (width / 2f), getY() - (height / 2f), width, height); // рисуем спрайт
@@ -67,6 +79,14 @@ public class GameObject {
 
     public int getX() {
         return (int) (body.getPosition().x / 0.05f);
+    }
+
+    public int getJumps() {
+        return jumps;
+    }
+
+    public void setJumps(int jumps) {
+        this.jumps = jumps;
     }
 
 }
