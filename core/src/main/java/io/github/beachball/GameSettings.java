@@ -13,19 +13,24 @@ public class GameSettings {
     public static final int POSITION_ITERATIONS = 6;
     public static final float SCALE = 0.05f;
 
-    public static float SHIP_FORCE_RATIO = 10;
+
 
     // Object sizes
 
     public static final int OBJECT_WIDTH = 3500 ;
-    public static final int OBJECT_HEIGHT = 100;
+    public static final int OBJECT_HEIGHT = 80;
 
     // Images for textures
 
     public static final String OBJECT_IMG_PATH = "smileface.png";
     public static final String BUTTON_IMG_PATH = "button.png";
+    public static final String BALL_IMAGE_PATH = "ball.jpg";
+    public static final String PLAYER_IMAGE_PATH = "redPlayer.png";
 
 
     public static final short PLAYER_BIT = 2;
     public static final short FLOOR_BIT = 4;
+    public static final short BALL_BIT = 8;
+    public static final short BAFFLE_BIT = 16;
+    public static final short SIMPLE_BIT = -1;
 }

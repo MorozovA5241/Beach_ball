@@ -1,5 +1,7 @@
 package io.github.beachball;
 
+import static io.github.beachball.GameSettings.SCALE;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,34 +19,41 @@ public class GameObject {
     int width; // ширина высота
     int height;
     public short cBits;
-    Body body;
+    public Body body;
     Texture texture;
     int jumps;
+    float angularDamping;
+    float linearDamping;
+    float restitution;
+    public boolean needSetPosition;
 
-    GameObject(int x, int y, int width, int height, World world, String texturePath, short cBits) {
+    GameObject(int x, int y, int width, int height, World world, String texturePath, short cBits, float angularDamping, float linearDamping, float restitution) {
         jumps = 0;
         this.width = width;
         this.height = height;
         this.cBits = cBits;
         texture = new Texture(texturePath);
-        body = createBody(x, y, world); // в конструкторе сразу создаем новое тело
+        body = createBody(x, y, world, angularDamping, linearDamping, restitution);
+        needSetPosition = false;// в конструкторе сразу создаем новое тело
     }
 
 
-    private Body createBody(float x, float y, World world) {
+    private Body createBody(float x, float y, World world, float angularDamping, float linearDamping, float restitution) {
         BodyDef def = new BodyDef(); // def - defenition (определение) это объект, который содержит все данные, необходимые для посторения тела
 
         def.type = BodyDef.BodyType.DynamicBody; // тип тела, который имеет массу и может быть подвинут под действием сил
         def.fixedRotation = false; // запрещаем телу вращаться вокруг своей оси
         Body body = world.createBody(def); // создаём в мире world объект по описанному нами определению
-
+        body.setLinearDamping(linearDamping);
+        body.setAngularDamping(angularDamping);
         CircleShape circleShape = new CircleShape(); // задаём коллайдер в форме круга
         circleShape.setRadius(Math.max(width, height) * 0.05f / 2f); // определяем радиус круга коллайдера
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape; // устанавливаем коллайдер
         fixtureDef.density = 0.1f; // устанавливаем плотность тела
-        fixtureDef.friction = 1000f; // устанвливаем коэффициент трения
+        fixtureDef.friction = 0.2f; // устанвливаем коэффициент трения
+        fixtureDef.restitution = restitution;
         fixtureDef.filter.categoryBits = cBits;
 
 
@@ -64,13 +73,22 @@ public class GameObject {
 
     public void jump(){
         if(jumps<=1)
-            body.applyForceToCenter(0, 50000, true);
+            body.applyForceToCenter(0, 19000, true);
         jumps++;
+    }
+
+    public void applyForce(float force){
+        body.applyForceToCenter(0, force, true);
     }
 
 
     public void draw(SpriteBatch batch) {
         batch.draw(texture, getX() - (width / 2f), getY() - (height / 2f), width, height); // рисуем спрайт
+    }
+
+    public void setPosition(){
+        needSetPosition = true;
+
     }
 
     public int getY() {
