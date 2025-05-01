@@ -33,6 +33,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import io.github.beachball.components.ButtonView;
 import io.github.beachball.managers.ContactManager;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont; // что бы шерифт был
+
 public class GameScreen extends ScreenAdapter {
     Main main;
     GameObject gameObject;
@@ -47,23 +49,29 @@ public class GameScreen extends ScreenAdapter {
     ButtonView leftButton;
     ButtonView jumpButton;
     ContactManager contactManager;
-
+    boolean check = false; // Что-бы играть до разнице в очках
+    int playerScore = 0;
+    int enemyScore = 0;
+    final int WIN_SCORE = 11;
+    BitmapFont font;
     public GameScreen(Main main) {
         this.main = main;
 
         contactManager = new ContactManager(main.world);
 
-        gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, PLAYER_IMAGE_PATH, PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
+        gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
         box = new StaticGameObject(SCREEN_WIDTH, 10, OBJECT_WIDTH+ 100000, OBJECT_HEIGHT - 80, main.world, OBJECT_IMG_PATH, FLOOR_BIT);// делаем статический объект
         rightButton = new ButtonView(20, 100, 100, 100, LEFTBUTTON_IMAGE_PATH);
         jumpButton = new ButtonView(1100, 100, 100, 100, UPBUTTON_IMAGE_PATH);
         leftButton = new ButtonView(140, 100, 100, 100, RIGHTBUTTON_IMAGE_PATH);
-        wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 600, main.world, OBJECT_IMG_PATH, SIMPLE_BIT);
-        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, BALL_IMAGE_PATH, BALL_BIT, 1.0f, 1.0f, 1.6f);
+        wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 680, main.world, "Setka.png", SIMPLE_BIT);
+        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, "ball.jpg", BALL_BIT, 1.0f, 1.0f, 1.4f);
         //topSideWall = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 3000, 80, main.world, OBJECT_IMG_PATH, SIMPLE_BIT); //под вопросом
-        rightSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, OBJECT_IMG_PATH, SIMPLE_BIT);
-        leftSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, OBJECT_IMG_PATH, SIMPLE_BIT);
-        baffle = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 20, 1500, main.world, OBJECT_IMG_PATH, BAFFLE_BIT);
+        leftSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
+        rightSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, "rightSideWall.png", SIMPLE_BIT);
+        baffle = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 20, 1500, main.world, "Setka.png", BAFFLE_BIT);
+        font = new BitmapFont();
+        font.getData().setScale(2);
     }
 
     @Override
@@ -81,17 +89,28 @@ public class GameScreen extends ScreenAdapter {
         box.draw(main.batch);
         wall.draw(main.batch);
         ball.draw(main.batch);
+        font.draw(main.batch, "You: " + playerScore, 50, SCREEN_HEIGHT - 50);
+        font.draw(main.batch, "Enemy: " + enemyScore, SCREEN_WIDTH - 250, SCREEN_HEIGHT - 50);
        // topSideWall.draw(main.batch);
         rightSideWall.draw(main.batch);
         leftSideWall.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
-        ball.applyForce(70); // чтобы мячик был легче
+        ball.applyForce(80); // чтобы мячик был легче
 
-        if(ball.needSetPosition == true){  // жесточайший костыль для телепортации мячика убиваем старый и создаем другой
+        if (ball.needSetPosition == true) {
+            if (ball.getX() < SCREEN_WIDTH / 2) {
+                enemyScore++;
+            } else {
+                playerScore++;
+            }
+            if (enemyScore == playerScore && enemyScore == 10) {
+                check = true;
+            }
+            checkWin(check);
             main.world.destroyBody(ball.body);
             ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 100, 100, main.world, BALL_IMAGE_PATH, BALL_BIT, 1.0f, 1.0f, 1.4f);
-        }
 
+        }
         handleMovementInput();
         handleJumpInput();
     }
@@ -124,5 +143,29 @@ public class GameScreen extends ScreenAdapter {
                 gameObject.jump();
         }
     }
-
+    private void checkWin(boolean flag) {
+        if (flag) {
+            if (playerScore - enemyScore >= 2) {
+                playerScore = 0;
+                enemyScore = 0;
+                main.setScreen(new ResultScreen(main, true));
+            } else {
+                if (enemyScore - playerScore >= 2) {
+                    playerScore = 0;
+                    enemyScore = 0;
+                    main.setScreen(new ResultScreen(main, false));
+                }
+            }
+        } else {
+            if (playerScore >= WIN_SCORE) {
+                playerScore = 0;
+                enemyScore = 0;
+                main.setScreen(new ResultScreen(main, true));
+            } else if (enemyScore >= WIN_SCORE) {
+                playerScore = 0;
+                enemyScore = 0;
+                main.setScreen(new ResultScreen(main, false));
+            }
+        }
+    }
 }

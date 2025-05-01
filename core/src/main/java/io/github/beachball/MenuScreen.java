@@ -13,15 +13,18 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import io.github.beachball.components.ButtonView;
 
+
+
 public class MenuScreen extends ScreenAdapter {
     Main main;
     ButtonView  startButton;
+    ButtonView exitButton;
 
     public MenuScreen(Main main) {
         this.main = main;
 
-        startButton = new ButtonView(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 100, 100, BUTTON_IMG_PATH);
-
+        startButton = new ButtonView(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2 + 20, 400, 300, "Button_Play.png");
+        exitButton = new ButtonView(SCREEN_WIDTH/2 - 600, SCREEN_HEIGHT/2 - 250, 200, 100, "Exit.png");
     }
 
     public void render(float delta){
@@ -31,6 +34,7 @@ public class MenuScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
         startButton.draw(main.batch);
+        exitButton.draw(main.batch);
         main.batch.end();
 
         handleInput();
@@ -38,8 +42,12 @@ public class MenuScreen extends ScreenAdapter {
     private void handleInput(){
         if (Gdx.input.justTouched()) {
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            if(startButton.isHit(main.touch.x, main.touch.y))
+            if(startButton.isHit(main.touch.x, main.touch.y)) {
                 main.setScreen(main.gameScreen);
+            }
+            if(exitButton.isHit(main.touch.x, main.touch.y)) {
+                Gdx.app.exit();
+            }
         }
     }
 }
