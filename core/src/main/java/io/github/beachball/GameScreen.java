@@ -59,7 +59,7 @@ public class GameScreen extends ScreenAdapter {
         jumpButton = new ButtonView(1100, 100, 100, 100, UPBUTTON_IMAGE_PATH);
         leftButton = new ButtonView(140, 100, 100, 100, RIGHTBUTTON_IMAGE_PATH);
         wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 600, main.world, OBJECT_IMG_PATH, SIMPLE_BIT);
-        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, BALL_IMAGE_PATH, BALL_BIT, 1.0f, 1.0f, 1.4f);
+        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, BALL_IMAGE_PATH, BALL_BIT, 1.0f, 1.0f, 1.6f);
         //topSideWall = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 3000, 80, main.world, OBJECT_IMG_PATH, SIMPLE_BIT); //под вопросом
         rightSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, OBJECT_IMG_PATH, SIMPLE_BIT);
         leftSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, OBJECT_IMG_PATH, SIMPLE_BIT);
