@@ -25,7 +25,6 @@ public class StaticGameObject {
 
     Body body;
     Texture texture;
-
     public StaticGameObject(int x, int y, int width, int height, World world, String texturePath, short cBits) {
         this.width = width;
         this.height = height;
