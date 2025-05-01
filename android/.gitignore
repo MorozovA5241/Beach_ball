@@ -1,0 +1,40 @@
+# --- Java & Gradle ---
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+
+# Gradle
+.gradle/
+build/
+*/build/
+
+# --- Android Studio ---
+.idea/
+*.iml
+*.iws
+*.ipr
+local.properties
+.cxx/
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+
+# --- LibGDX Assets ---
+# Игнорировать всё в assets
+android/assets/*
+
+# Но разрешить .png и .json (можешь дописать другие типы)
+!android/assets/**/*.png
+!android/assets/**/*.jpg
+!android/assets/**/*.json
+
+# --- Kotlin ---
+*.kotlin_module
+
+# --- IntelliJ run configs ---
+*.iws
+out/
