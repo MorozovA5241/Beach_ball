@@ -37,7 +37,7 @@ public class WinListScreen extends ScreenAdapter {
     LinkedList<DysplayMatch> dysplay;
     public WinListScreen (Main main) {
         this.main = main;
-        reverseButton = new ButtonView(SCREEN_WIDTH/2 - 500, SCREEN_HEIGHT/2 + 100, 200, 200, "reverseHome.png");
+        reverseButton = new ButtonView(SCREEN_WIDTH/2 - 600, SCREEN_HEIGHT/2 + 200, 150, 150, "reverseHome.png");
         font = new BitmapFont();
         font.getData().setScale(2);
         dysplay = new LinkedList<>();
