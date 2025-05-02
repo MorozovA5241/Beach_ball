@@ -70,7 +70,7 @@ public class GameScreen extends ScreenAdapter {
         jumpButton = new ButtonView(1100, 60, 200, 200, "up.png");
         leftButton = new ButtonView(160, 60, 200, 200, "right.png");
         wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 700, main.world, "Setka.png", SIMPLE_BIT);
-        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
+        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
         //topSideWall = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 3000, 80, main.world, OBJECT_IMG_PATH, SIMPLE_BIT); //под вопросом
         leftSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
         rightSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, "rightSideWall.png", SIMPLE_BIT);
@@ -88,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
         gameObject.draw(main.batch);
-        main.batch.setColor(1, 1, 1, 0.5f); // прозрачность
+        main.batch.setColor(1, 1, 1, 0.7f); // прозрачность
         rightButton.draw(main.batch);
         leftButton.draw(main.batch);
         jumpButton.draw(main.batch);
@@ -103,7 +103,7 @@ public class GameScreen extends ScreenAdapter {
         rightSideWall.draw(main.batch);
         leftSideWall.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
-        ball.applyForce(80); // чтобы мячик был легче
+        ball.applyForce(35); // чтобы мячик был легче
 
         if (ball.needSetPosition == true) {
             if (ball.getX() < SCREEN_WIDTH / 2) {
@@ -116,7 +116,7 @@ public class GameScreen extends ScreenAdapter {
             }
             checkWin(check);
             main.world.destroyBody(ball.body);
-            ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 100, 100, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
+            ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
 
         }
         for (int i = 0; i < 10; i++) {
