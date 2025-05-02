@@ -36,6 +36,8 @@ import io.github.beachball.managers.ContactManager;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont; // что бы шерифт был
 
+import java.util.HashSet;
+
 public class GameScreen extends ScreenAdapter {
     Main main;
     GameObject gameObject;
@@ -55,6 +57,8 @@ public class GameScreen extends ScreenAdapter {
     int enemyScore = 0;
     final int WIN_SCORE = 11;
     BitmapFont font;
+    public boolean moved = false;
+    HashSet<Integer> activePointers = new HashSet<>(); // для мультитача
     public GameScreen(Main main) {
         this.main = main;
 
@@ -62,9 +66,9 @@ public class GameScreen extends ScreenAdapter {
 
         gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
         box = new StaticGameObject(SCREEN_WIDTH, 10, OBJECT_WIDTH+ 100000, OBJECT_HEIGHT - 80, main.world, OBJECT_IMG_PATH, FLOOR_BIT);// делаем статический объект
-        rightButton = new ButtonView(20, 100, 100, 100, LEFTBUTTON_IMAGE_PATH);
-        jumpButton = new ButtonView(1100, 100, 100, 100, UPBUTTON_IMAGE_PATH);
-        leftButton = new ButtonView(140, 100, 100, 100, RIGHTBUTTON_IMAGE_PATH);
+        rightButton = new ButtonView(0, 60, 200, 200, "left.png");
+        jumpButton = new ButtonView(1100, 60, 200, 200, "up.png");
+        leftButton = new ButtonView(160, 60, 200, 200, "right.png");
         wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 700, main.world, "Setka.png", SIMPLE_BIT);
         ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
         //topSideWall = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 3000, 80, main.world, OBJECT_IMG_PATH, SIMPLE_BIT); //под вопросом
@@ -84,9 +88,12 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
         gameObject.draw(main.batch);
+        main.batch.setColor(1, 1, 1, 0.5f); // прозрачность
         rightButton.draw(main.batch);
         leftButton.draw(main.batch);
         jumpButton.draw(main.batch);
+        main.batch.setColor(1, 1, 1, 1); // прозрачность
+
         box.draw(main.batch);
         wall.draw(main.batch);
         ball.draw(main.batch);
@@ -112,36 +119,62 @@ public class GameScreen extends ScreenAdapter {
             ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 100, 100, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
 
         }
-        handleMovementInput();
-        handleJumpInput();
+        for (int i = 0; i < 10; i++) {
+            handleJumpInput(i);
+            handleInput(i);
+        }
+        if (!moved) {
+            gameObject.move(0);
+        }
+        moved = false;
     }
-
-    private void handleMovementInput() {
-        if (Gdx.input.isTouched()) {
-            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+    private void handleInput(int i) {
+        boolean touchMove = false; // Чтобы мяч не прыгал по диагонали
+        if (Gdx.input.isTouched(i)) {
+            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(i), Gdx.input.getY(i), 0));
+            if (rightButton.isHit(main.touch.x, main.touch.y)) {
+                gameObject.move(-20);
+                moved = true;
+                touchMove = true;
+            }
+            if (leftButton.isHit(main.touch.x, main.touch.y)) {
+                gameObject.move(25);
+                moved = true;
+                touchMove = true;
+            }
+            activePointers.add(i);
+        } else {
+            activePointers.remove(i);
+        }
+    }
+    private void handleMovementInput(int i) {
+        if (Gdx.input.isTouched(i)) {
+            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(i), Gdx.input.getY(i), 0));
 
             if (rightButton.isHit(main.touch.x, main.touch.y)) {
                 gameObject.move(-20);
+            } else {
+                if (leftButton.isHit(main.touch.x, main.touch.y)) {
+                    gameObject.move(25);
+                } else {
+                    gameObject.move(0);
+                }
             }
-
-            else if (leftButton.isHit(main.touch.x, main.touch.y)) {
-                gameObject.move(25);
-            }
-            else
-                gameObject.move(0);
-
-        }
-        else
+        } else {
             gameObject.move(0);
-
-
-
+        }
     }
-    private void handleJumpInput(){
-        if (Gdx.input.justTouched()) {
-            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            if(jumpButton.isHit(main.touch.x, main.touch.y))
-                gameObject.jump();
+    private void handleJumpInput(int i){
+        if (Gdx.input.isTouched(i)) {
+            if (!activePointers.contains(i)) {
+                main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(i), Gdx.input.getY(i), 0));
+                if (jumpButton.isHit(main.touch.x, main.touch.y)) {
+                    gameObject.jump();
+                }
+                activePointers.add(i);
+            }
+        } else {
+            activePointers.remove(i);
         }
     }
     private void checkWin(boolean flag) {
