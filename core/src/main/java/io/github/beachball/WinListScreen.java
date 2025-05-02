@@ -64,13 +64,16 @@ public class WinListScreen extends ScreenAdapter {
             }
             font.draw(main.batch, i.result.playerScore + " - " + i.result.enemyScore, i.x - 50, i.y + 50 + scrollY);
         }
+        font.draw(main.batch, "Wins : " + main.totalWins, SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 345);
+        font.draw(main.batch, "Loses : " + main.totalLoses, SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 300);
+
         handleInput();
         main.batch.end();
     }
     private void handleInput() {
         if (Gdx.input.isTouched()) { // касиение хоть когда
             float newscrollY = scrollY + Gdx.input.getDeltaY();
-            if (SCREEN_HEIGHT / 2 + 150 + newscrollY >= SCREEN_HEIGHT / 2 + 150 && SCREEN_HEIGHT / 2 + 150 - 200 * dysplay.size() + newscrollY < 300) {
+            if (SCREEN_HEIGHT / 2 + 150 + newscrollY >= SCREEN_HEIGHT / 2 + 150 && SCREEN_HEIGHT / 2 + 150 - 200 * dysplay.size() + newscrollY < SCREEN_HEIGHT / 2) {
                 scrollY = newscrollY;
             }
         }

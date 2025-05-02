@@ -65,8 +65,8 @@ public class GameScreen extends ScreenAdapter {
         rightButton = new ButtonView(20, 100, 100, 100, LEFTBUTTON_IMAGE_PATH);
         jumpButton = new ButtonView(1100, 100, 100, 100, UPBUTTON_IMAGE_PATH);
         leftButton = new ButtonView(140, 100, 100, 100, RIGHTBUTTON_IMAGE_PATH);
-        wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 680, main.world, "Setka.png", SIMPLE_BIT);
-        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, "ball.jpg", BALL_BIT, 1.0f, 1.0f, 1.4f);
+        wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 700, main.world, "Setka.png", SIMPLE_BIT);
+        ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 100, 100, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
         //topSideWall = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 3000, 80, main.world, OBJECT_IMG_PATH, SIMPLE_BIT); //под вопросом
         leftSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
         rightSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, "rightSideWall.png", SIMPLE_BIT);
@@ -109,7 +109,7 @@ public class GameScreen extends ScreenAdapter {
             }
             checkWin(check);
             main.world.destroyBody(ball.body);
-            ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 100, 100, main.world, BALL_IMAGE_PATH, BALL_BIT, 1.0f, 1.0f, 1.4f);
+            ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 100, 100, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
 
         }
         handleMovementInput();
@@ -151,6 +151,7 @@ public class GameScreen extends ScreenAdapter {
                     main.history.removeFirst();
                 }
                 main.history.add(new MatchResult(true, playerScore, enemyScore));
+                main.totalWins++;
                 main.saveHistory();
                 playerScore = 0;
                 enemyScore = 0;
@@ -161,6 +162,7 @@ public class GameScreen extends ScreenAdapter {
                         main.history.removeFirst();
                     }
                     main.history.add(new MatchResult(false, playerScore, enemyScore));
+                    main.totalLoses++;
                     main.saveHistory();
                     playerScore = 0;
                     enemyScore = 0;
@@ -173,6 +175,7 @@ public class GameScreen extends ScreenAdapter {
                     main.history.removeFirst();
                 }
                 main.history.add(new MatchResult(true, playerScore, enemyScore));
+                main.totalWins++;
                 main.saveHistory();
                 playerScore = 0;
                 enemyScore = 0;
@@ -182,6 +185,7 @@ public class GameScreen extends ScreenAdapter {
                     main.history.removeFirst();
                 }
                 main.history.add(new MatchResult(false, playerScore, enemyScore));
+                main.totalLoses++;
                 main.saveHistory();
                 playerScore = 0;
                 enemyScore = 0;

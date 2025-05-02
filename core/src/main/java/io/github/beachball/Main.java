@@ -41,7 +41,12 @@ public class Main extends Game {
     public MenuScreen menuScreen;
     public WinListScreen winlistScreen;
 
+    public RulesScreen rulesScreen;
+
     public LinkedList<MatchResult> history = new LinkedList<>(); //список матчей
+
+    public int totalWins = 0;
+    public int totalLoses = 0;
 
 
     @Override
@@ -61,18 +66,26 @@ public class Main extends Game {
     }
 
     public void saveHistory() { //сохранение истории в файл
+        saveData save = new saveData();
+        save.history = history;
+        save.totalLosses = totalLoses;
+        save.totalWins = totalWins;
         Json json = new Json();
         FileHandle file = Gdx.files.local("history.json");
-        file.writeString(json.toJson(history), false);
+        file.writeString(json.toJson(save), false);
     }
 
     public void loadHistory() { //загрузка при входе обратно из файла
         FileHandle file = Gdx.files.local("history.json");
         if (file.exists()) {
-            Json json = new Json();
-            history = json.fromJson(LinkedList.class, MatchResult.class, file);
+            saveData save = new Json().fromJson(saveData.class, file);
+            history =  save.history;
+            totalWins = save.totalWins;
+            totalLoses = save.totalLosses;
         } else {
             history = new LinkedList<>();
+            totalLoses = 0;
+            totalWins = 0;
         }
     }
 

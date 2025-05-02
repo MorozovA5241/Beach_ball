@@ -19,45 +19,41 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont; // что бы шерифт б�
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.GL20;
-
-import java.util.LinkedList; // подключаем очередь
-
-
-public class ResultScreen extends ScreenAdapter {
+public class RulesScreen extends ScreenAdapter {
     Main main;
-    boolean Win;
-    ButtonView  homeButton;
-
-    public ResultScreen(Main main, boolean Win) {
+    BitmapFont font;
+    ButtonView reverseButton;
+    public RulesScreen(Main main) {
         this.main = main;
-        this.Win = Win;
-        homeButton = new ButtonView(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - 300, 200, 200, "Home.png");
+        reverseButton = new ButtonView(SCREEN_WIDTH/2 - 500, SCREEN_HEIGHT/2 + 100, 200, 200, "reverseHome.png");
+        font = new BitmapFont();
+        font.getData().setScale(2);
     }
 
-    public void render(float delta){
+    public void render(float delta) {
         main.cam.update();
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
-        Texture texture;
-        if (Win == true) {
-            texture = new Texture("Win.png");
-            main.batch.draw(texture, SCREEN_WIDTH/2 - 230, SCREEN_HEIGHT/2, 500, 400);
-        } else {
-            texture = new Texture("Lose.png");
-            main.batch.draw(texture, SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2, 400, 300);
-        }
-
-        homeButton.draw(main.batch);
+        reverseButton.draw(main.batch);
+        font.draw(main.batch, "Rule", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
         main.batch.end();
 
         handleInput();
     }
-    private void handleInput(){
-        if (Gdx.input.justTouched()) {
+
+    private void handleInput() {
+        if (Gdx.input.justTouched()) { // только новое касание
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            if(homeButton.isHit(main.touch.x, main.touch.y))
+            if (reverseButton.isHit(main.touch.x, main.touch.y)) {
                 main.setScreen(main.menuScreen);
+            }
         }
+    }
+
+    @Override
+    public void dispose() {
+        font.dispose();
+        reverseButton.dispose();
     }
 }
