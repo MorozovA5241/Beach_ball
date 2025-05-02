@@ -28,14 +28,15 @@ public class WinListScreen extends ScreenAdapter {
     ButtonView reverseButton;
     StaticGameObject resultImage;
     BitmapFont font;
-
+    private float scrollY = 0;
+    private boolean touch = false; // держим ли мы еще палец
+    private float lastY;
     LinkedList<DysplayMatch> dysplay;
     public WinListScreen (Main main) {
         this.main = main;
         reverseButton = new ButtonView(SCREEN_WIDTH/2 - 500, SCREEN_HEIGHT/2 + 100, 200, 200, "reverseHome.png");
         font = new BitmapFont();
         font.getData().setScale(2);
-
         dysplay = new LinkedList<>();
         for (int i = 0; i < main.history.size(); i++) {
             MatchResult now = main.history.get(i);
@@ -45,10 +46,10 @@ public class WinListScreen extends ScreenAdapter {
             } else {
                 texture = new Texture("Lose.png");
             }
-            dysplay.add(new DysplayMatch(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150 - 100 * i, now, texture));
+            dysplay.add(new DysplayMatch(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 150 - 200 * i, now, texture));
         }
+        this.scrollY = scrollY; // для скроллинга
     }
-
     public void render(float delta) {
         main.cam.update();
         main.batch.setProjectionMatrix(main.cam.combined);
@@ -56,22 +57,31 @@ public class WinListScreen extends ScreenAdapter {
         main.batch.begin();
         reverseButton.draw(main.batch);
         for (DysplayMatch i : dysplay) {
-            main.batch.draw(i.texture, i.x - 150, i.y, 300, 200);
-            font.draw(main.batch, i.result.playerScore + " - " + i.result.enemyScore, i.x - 50, i.y + 50);
+            if (i.result.who_win) {
+                main.batch.draw(i.texture, i.x - 163, i.y + scrollY - 30, 370, 250);
+            } else {
+                main.batch.draw(i.texture, i.x - 150, i.y + scrollY, 300, 200);
+            }
+            font.draw(main.batch, i.result.playerScore + " - " + i.result.enemyScore, i.x - 50, i.y + 50 + scrollY);
         }
-        main.batch.end();
-
         handleInput();
+        main.batch.end();
     }
-
     private void handleInput() {
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.isTouched()) { // касиение хоть когда
+            float newscrollY = scrollY + Gdx.input.getDeltaY();
+            if (SCREEN_HEIGHT / 2 + 150 + newscrollY >= SCREEN_HEIGHT / 2 + 150 && SCREEN_HEIGHT / 2 + 150 - 200 * dysplay.size() + newscrollY < 300) {
+                scrollY = newscrollY;
+            }
+        }
+        if (Gdx.input.justTouched()) { // только новое касание
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-            if(reverseButton.isHit(main.touch.x, main.touch.y))
+            if (reverseButton.isHit(main.touch.x, main.touch.y)) {
+                scrollY = 0;
                 main.setScreen(main.menuScreen);
+            }
         }
     }
-
     @Override
     public void dispose() {
         for (DysplayMatch i : dysplay) {

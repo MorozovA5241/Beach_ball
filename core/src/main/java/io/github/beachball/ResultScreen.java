@@ -42,7 +42,7 @@ public class ResultScreen extends ScreenAdapter {
         Texture texture;
         if (Win == true) {
             texture = new Texture("Win.png");
-            main.batch.draw(texture, SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2, 500, 400);
+            main.batch.draw(texture, SCREEN_WIDTH/2 - 300, SCREEN_HEIGHT/2, 500, 400);
         } else {
             texture = new Texture("Lose.png");
             main.batch.draw(texture, SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2, 400, 300);
