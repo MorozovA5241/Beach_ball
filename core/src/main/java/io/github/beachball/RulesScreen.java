@@ -36,7 +36,8 @@ public class RulesScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
         reverseButton.draw(main.batch);
-        font.draw(main.batch, "Rule", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        Texture texture = new Texture("RulesText.png");
+        main.batch.draw(texture, SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 2 - 350, 700,700);
         main.batch.end();
 
         handleInput();

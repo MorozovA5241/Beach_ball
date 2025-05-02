@@ -147,7 +147,7 @@ public class GameScreen extends ScreenAdapter {
     private void checkWin(boolean flag) {
         if (flag) {
             if (playerScore - enemyScore >= 2) {
-                if (main.history.size() >= 10) {
+                if (main.history.size() >= 20) {
                     main.history.removeFirst();
                 }
                 main.history.add(new MatchResult(true, playerScore, enemyScore));
@@ -158,7 +158,7 @@ public class GameScreen extends ScreenAdapter {
                 main.setScreen(new ResultScreen(main, true));
             } else {
                 if (enemyScore - playerScore >= 2) {
-                    if (main.history.size() >= 10) {
+                    if (main.history.size() >= 20) {
                         main.history.removeFirst();
                     }
                     main.history.add(new MatchResult(false, playerScore, enemyScore));
@@ -171,7 +171,7 @@ public class GameScreen extends ScreenAdapter {
             }
         } else {
             if (playerScore >= WIN_SCORE) {
-                if (main.history.size() >= 10) {
+                if (main.history.size() >= 20) {
                     main.history.removeFirst();
                 }
                 main.history.add(new MatchResult(true, playerScore, enemyScore));
@@ -181,7 +181,7 @@ public class GameScreen extends ScreenAdapter {
                 enemyScore = 0;
                 main.setScreen(new ResultScreen(main, true));
             } else if (enemyScore >= WIN_SCORE) {
-                if (main.history.size() >= 10) {
+                if (main.history.size() >= 20) {
                     main.history.removeFirst();
                 }
                 main.history.add(new MatchResult(false, playerScore, enemyScore));

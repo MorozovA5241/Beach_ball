@@ -28,7 +28,7 @@ public class MenuScreen extends ScreenAdapter {
         startButton = new ButtonView(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2 + 20, 400, 300, "Button_Play.png");
         exitButton = new ButtonView(SCREEN_WIDTH/2 - 600, SCREEN_HEIGHT/2 - 250, 200, 100, "Exit.png");
         listButton = new ButtonView(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/2 - 300, 200, 300, "ListOfMaches.png");
-        rulesButton = new ButtonView(SCREEN_WIDTH/2 - 180, SCREEN_HEIGHT/2 - 300, 250, 250, "Rules.png");
+        rulesButton = new ButtonView(SCREEN_WIDTH/2 - 230, SCREEN_HEIGHT/2 - 300, 250, 250, "Rules.png");
     }
 
     public void render(float delta){
