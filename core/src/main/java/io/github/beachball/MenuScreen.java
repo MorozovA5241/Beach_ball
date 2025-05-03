@@ -19,12 +19,16 @@ public class MenuScreen extends ScreenAdapter {
     Main main;
     ButtonView  startButton;
     ButtonView exitButton;
+    ButtonView listButton;
+    ButtonView rulesButton;
 
     public MenuScreen(Main main) {
         this.main = main;
 
         startButton = new ButtonView(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2 + 20, 400, 300, "Button_Play.png");
         exitButton = new ButtonView(SCREEN_WIDTH/2 - 600, SCREEN_HEIGHT/2 - 250, 200, 100, "Exit.png");
+        listButton = new ButtonView(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/2 - 300, 200, 300, "ListOfMaches.png");
+        rulesButton = new ButtonView(SCREEN_WIDTH/2 - 230, SCREEN_HEIGHT/2 - 300, 250, 250, "Rules.png");
     }
 
     public void render(float delta){
@@ -35,6 +39,8 @@ public class MenuScreen extends ScreenAdapter {
         main.batch.begin();
         startButton.draw(main.batch);
         exitButton.draw(main.batch);
+        listButton.draw(main.batch);
+        rulesButton.draw(main.batch);
         main.batch.end();
 
         handleInput();
@@ -47,6 +53,12 @@ public class MenuScreen extends ScreenAdapter {
             }
             if(exitButton.isHit(main.touch.x, main.touch.y)) {
                 Gdx.app.exit();
+            }
+            if(listButton.isHit(main.touch.x, main.touch.y)) {
+                main.setScreen(new WinListScreen(main));
+            }
+            if(rulesButton.isHit(main.touch.x, main.touch.y)) {
+                main.setScreen(new RulesScreen(main));
             }
         }
     }

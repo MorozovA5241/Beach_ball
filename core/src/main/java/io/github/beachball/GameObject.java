@@ -71,10 +71,11 @@ public class GameObject {
         body.setLinearVelocity(force, body.getLinearVelocity().y);
     }
 
-    public void jump(){
-        if(jumps<=1)
+    public void jump() {
+        if (jumps < 2) {
+            jumps++;
             body.applyForceToCenter(0, 19000, true);
-        jumps++;
+        }
     }
 
     public void applyForce(float force){
@@ -108,3 +109,4 @@ public class GameObject {
     }
 
 }
+
