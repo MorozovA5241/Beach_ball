@@ -188,6 +188,7 @@ public class GameScreen extends ScreenAdapter {
                 main.saveHistory();
                 playerScore = 0;
                 enemyScore = 0;
+                check = false;
                 main.setScreen(new ResultScreen(main, true));
             } else {
                 if (enemyScore - playerScore >= 2) {
@@ -199,6 +200,7 @@ public class GameScreen extends ScreenAdapter {
                     main.saveHistory();
                     playerScore = 0;
                     enemyScore = 0;
+                    check = false;
                     main.setScreen(new ResultScreen(main, false));
                 }
             }
@@ -212,6 +214,7 @@ public class GameScreen extends ScreenAdapter {
                 main.saveHistory();
                 playerScore = 0;
                 enemyScore = 0;
+                check = false;
                 main.setScreen(new ResultScreen(main, true));
             } else if (enemyScore >= WIN_SCORE) {
                 if (main.history.size() >= 20) {
@@ -222,6 +225,7 @@ public class GameScreen extends ScreenAdapter {
                 main.saveHistory();
                 playerScore = 0;
                 enemyScore = 0;
+                check = false;
                 main.setScreen(new ResultScreen(main, false));
             }
         }
