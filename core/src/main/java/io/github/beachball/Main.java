@@ -47,7 +47,7 @@ public class Main extends Game {
 
     public int totalWins = 0;
     public int totalLoses = 0;
-
+    public boolean mode = false;
 
     @Override
     public void create() {

@@ -6,6 +6,7 @@ import static io.github.beachball.GameSettings.SCREEN_HEIGHT;
 import static io.github.beachball.GameSettings.SCREEN_WIDTH;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
@@ -21,10 +22,12 @@ public class MenuScreen extends ScreenAdapter {
     ButtonView exitButton;
     ButtonView listButton;
     ButtonView rulesButton;
+    ButtonView modeButton;
 
     public MenuScreen(Main main) {
         this.main = main;
 
+        modeButton = new ButtonView(SCREEN_WIDTH/2 - 450, SCREEN_HEIGHT/2 + 40, 150, 150, "modeTwo.png");
         startButton = new ButtonView(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2 + 20, 400, 300, "Button_Play.png");
         exitButton = new ButtonView(SCREEN_WIDTH/2 - 600, SCREEN_HEIGHT/2 - 250, 200, 100, "Exit.png");
         listButton = new ButtonView(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/2 - 300, 200, 300, "ListOfMaches.png");
@@ -37,6 +40,7 @@ public class MenuScreen extends ScreenAdapter {
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
+        modeButton.draw(main.batch);
         startButton.draw(main.batch);
         exitButton.draw(main.batch);
         listButton.draw(main.batch);
@@ -59,6 +63,9 @@ public class MenuScreen extends ScreenAdapter {
             }
             if(rulesButton.isHit(main.touch.x, main.touch.y)) {
                 main.setScreen(new RulesScreen(main));
+            }
+            if(modeButton.isHit(main.touch.x, main.touch.y)) {
+                main.setScreen(new ModeScreen(main));
             }
         }
     }
