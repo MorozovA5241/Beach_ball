@@ -32,19 +32,15 @@ public class Main extends Game {
     public World world;
     OrthographicCamera cam;
     float accumulator = 0;
-
     public SpriteBatch batch;
-
     public SpriteBatch batch1;
     Vector3 touch;
-    public GameScreen gameScreen;
     public MenuScreen menuScreen;
     public WinListScreen winlistScreen;
-
     public RulesScreen rulesScreen;
-
+    public GameScreenOne gameScreenOne;
+    public GameScreenTwo gameScreenTwo;
     public LinkedList<MatchResult> history = new LinkedList<>(); //список матчей
-
     public int totalWins = 0;
     public int totalLoses = 0;
     public boolean mode = false;
@@ -54,12 +50,10 @@ public class Main extends Game {
         loadHistory();// загружаем историю
 
         Box2D.init(); //поключаем физику
-        world = new World(new Vector2(0, -90), true);  // делаем мир
+        world = new World(new Vector2(0, -90), true);
         cam = new OrthographicCamera();//камера
         cam.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);// настройка камеры
         batch = new SpriteBatch(); // штука чтобы отрисовать модель
-        gameScreen = new GameScreen(this);//ставим экран
-        winlistScreen = new WinListScreen(this);
 
         menuScreen = new MenuScreen(this);
         setScreen(menuScreen);//ставим экраy

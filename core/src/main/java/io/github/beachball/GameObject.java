@@ -26,6 +26,7 @@ public class GameObject {
     float linearDamping;
     float restitution;
     public boolean needSetPosition;
+    public boolean needSetPositionOne;
 
     GameObject(int x, int y, int width, int height, World world, String texturePath, short cBits, float angularDamping, float linearDamping, float restitution) {
         jumps = 0;
@@ -35,6 +36,7 @@ public class GameObject {
         texture = new Texture(texturePath);
         body = createBody(x, y, world, angularDamping, linearDamping, restitution);
         needSetPosition = false;// в конструкторе сразу создаем новое тело
+        needSetPositionOne =  false;
     }
 
 
@@ -90,6 +92,9 @@ public class GameObject {
     public void setPosition(){
         needSetPosition = true;
 
+    }
+    public void setScore() {
+        needSetPositionOne = true;
     }
 
     public int getY() {

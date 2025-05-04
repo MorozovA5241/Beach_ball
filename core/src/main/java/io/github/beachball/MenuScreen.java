@@ -23,11 +23,12 @@ public class MenuScreen extends ScreenAdapter {
     ButtonView listButton;
     ButtonView rulesButton;
     ButtonView modeButton;
+    ButtonView modeButtonOne;
 
     public MenuScreen(Main main) {
         this.main = main;
-
-        modeButton = new ButtonView(SCREEN_WIDTH/2 - 450, SCREEN_HEIGHT/2 + 40, 150, 150, "modeTwo.png");
+        modeButtonOne = new ButtonView(SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 + 40, 150, 150, "modeOne.png");
+        modeButton = new ButtonView(SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 + 40, 150, 150, "modeTwo.png");
         startButton = new ButtonView(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2 + 20, 400, 300, "Button_Play.png");
         exitButton = new ButtonView(SCREEN_WIDTH/2 - 600, SCREEN_HEIGHT/2 - 250, 200, 100, "Exit.png");
         listButton = new ButtonView(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/2 - 300, 200, 300, "ListOfMaches.png");
@@ -40,7 +41,11 @@ public class MenuScreen extends ScreenAdapter {
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
-        modeButton.draw(main.batch);
+        if (main.mode) {
+            modeButtonOne.draw(main.batch);
+        } else {
+            modeButton.draw(main.batch);
+        }
         startButton.draw(main.batch);
         exitButton.draw(main.batch);
         listButton.draw(main.batch);
@@ -53,13 +58,20 @@ public class MenuScreen extends ScreenAdapter {
         if (Gdx.input.justTouched()) {
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             if(startButton.isHit(main.touch.x, main.touch.y)) {
-                main.setScreen(main.gameScreen);
+                if (main.mode) {
+                    main.gameScreenOne = new GameScreenOne(main);
+                    main.setScreen(main.gameScreenOne);
+                } else {
+                    main.gameScreenTwo = new GameScreenTwo(main);
+                    main.setScreen(main.gameScreenTwo);
+                }
             }
             if(exitButton.isHit(main.touch.x, main.touch.y)) {
                 Gdx.app.exit();
             }
             if(listButton.isHit(main.touch.x, main.touch.y)) {
-                main.setScreen(new WinListScreen(main));
+                main.winlistScreen = new WinListScreen(main);
+                main.setScreen(main.winlistScreen);
             }
             if(rulesButton.isHit(main.touch.x, main.touch.y)) {
                 main.setScreen(new RulesScreen(main));

@@ -4,7 +4,6 @@ import static io.github.beachball.GameSettings.BAFFLE_BIT;
 import static io.github.beachball.GameSettings.BALL_BIT;
 import static io.github.beachball.GameSettings.FLOOR_BIT;
 import static io.github.beachball.GameSettings.PLAYER_BIT;
-import static io.github.beachball.GameSettings.SCREEN_WIDTH;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
 import io.github.beachball.GameObject;
-import io.github.beachball.GameScreen;
 
 public class ContactManager { // этот прикол отслеживает контакты в физике
     World world;
@@ -45,6 +43,15 @@ public class ContactManager { // этот прикол отслеживает к
 
                 if(cDefB == BALL_BIT && cDefA == FLOOR_BIT){
                     ((GameObject) fixB.getUserData()).setPosition();
+
+                }
+
+                if(cDefA == BALL_BIT && cDefB == PLAYER_BIT){
+                    ((GameObject) fixA.getUserData()).setScore();
+                }
+
+                if(cDefB == BALL_BIT && cDefA == PLAYER_BIT){
+                    ((GameObject) fixB.getUserData()).setScore();
 
                 }
 

@@ -19,7 +19,8 @@ public class ModeScreen extends ScreenAdapter {
 
     public ModeScreen(Main main) {
         this.main = main;
-        modeOneButton = new ButtonView(SCREEN_WIDTH/2 - 500, SCREEN_HEIGHT/2 - 50, 300, 300, "modeTwo.png");
+        modeOneButton = new ButtonView(SCREEN_WIDTH/2 - 500, SCREEN_HEIGHT/2 - 100, 250, 250, "modeOne.png");
+        modeTwoButton = new ButtonView(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/2 - 200, 300, 300, "modeTwo.png");
     }
 
     public void render(float delta) {
@@ -28,6 +29,7 @@ public class ModeScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
         modeOneButton.draw(main.batch);
+        modeTwoButton.draw(main.batch);
         main.batch.end();
 
         handleInput();
@@ -37,6 +39,11 @@ public class ModeScreen extends ScreenAdapter {
         if (Gdx.input.justTouched()) { // только новое касание
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             if (modeOneButton.isHit(main.touch.x, main.touch.y)) {
+                main.mode = true;
+                main.setScreen(main.menuScreen);
+            }
+            if (modeTwoButton.isHit(main.touch.x, main.touch.y)) {
+                main.mode = false;
                 main.setScreen(main.menuScreen);
             }
         }
@@ -45,5 +52,6 @@ public class ModeScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         modeOneButton.dispose();
+        modeTwoButton.dispose();
     }
 }

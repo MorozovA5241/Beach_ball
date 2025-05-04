@@ -2,6 +2,7 @@ package io.github.beachball;
 
 import static io.github.beachball.GameSettings.BUTTON_IMG_PATH;
 import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
+import static io.github.beachball.GameSettings.PLAYER_BIT;
 import static io.github.beachball.GameSettings.SCREEN_HEIGHT;
 import static io.github.beachball.GameSettings.SCREEN_WIDTH;
 import static io.github.beachball.GameSettings.SIMPLE_BIT;
@@ -26,11 +27,14 @@ import java.util.LinkedList; // подключаем очередь
 public class ResultScreen extends ScreenAdapter {
     Main main;
     boolean Win;
+    int Score;
     ButtonView  homeButton;
-
-    public ResultScreen(Main main, boolean Win) {
+    BitmapFont font;
+    public ResultScreen(Main main, boolean Win, int Score) {
         this.main = main;
         this.Win = Win;
+        this.Score = Score;
+        font = new BitmapFont();
         homeButton = new ButtonView(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - 300, 200, 200, "Home.png");
     }
 
@@ -40,14 +44,17 @@ public class ResultScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         main.batch.begin();
         Texture texture;
-        if (Win == true) {
-            texture = new Texture("Win.png");
-            main.batch.draw(texture, SCREEN_WIDTH/2 - 230, SCREEN_HEIGHT/2, 500, 400);
+        if (Score == -1) {
+            if (Win == true) {
+                texture = new Texture("Win.png");
+                main.batch.draw(texture, SCREEN_WIDTH / 2 - 230, SCREEN_HEIGHT / 2, 500, 400);
+            } else {
+                texture = new Texture("Lose.png");
+                main.batch.draw(texture, SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, 400, 300);
+            }
         } else {
-            texture = new Texture("Lose.png");
-            main.batch.draw(texture, SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2, 400, 300);
+            font.draw(main.batch, "Score : " + Score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 295);
         }
-
         homeButton.draw(main.batch);
         main.batch.end();
 
