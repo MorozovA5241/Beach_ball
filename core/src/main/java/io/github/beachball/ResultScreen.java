@@ -47,13 +47,16 @@ public class ResultScreen extends ScreenAdapter {
         if (Score == -1) {
             if (Win == true) {
                 texture = new Texture("Win.png");
-                main.batch.draw(texture, SCREEN_WIDTH / 2 - 230, SCREEN_HEIGHT / 2, 500, 400);
+                main.batch.draw(texture, SCREEN_WIDTH / 2 - 230, SCREEN_HEIGHT / 2,
+                    500, 400);
             } else {
                 texture = new Texture("Lose.png");
-                main.batch.draw(texture, SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2, 400, 300);
+                main.batch.draw(texture, SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT / 2,
+                    400, 300);
             }
         } else {
-            font.draw(main.batch, "Score : " + Score, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 295);
+            font.draw(main.batch, "Score : " + Score, SCREEN_WIDTH/2,
+                SCREEN_HEIGHT/2 + 295);
         }
         homeButton.draw(main.batch);
         main.batch.end();

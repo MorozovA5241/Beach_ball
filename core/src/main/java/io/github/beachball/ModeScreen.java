@@ -37,7 +37,8 @@ public class ModeScreen extends ScreenAdapter {
 
     private void handleInput() {
         if (Gdx.input.justTouched()) { // только новое касание
-            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(),
+                Gdx.input.getY(), 0));
             if (modeOneButton.isHit(main.touch.x, main.touch.y)) {
                 main.mode = true;
                 main.setScreen(main.menuScreen);

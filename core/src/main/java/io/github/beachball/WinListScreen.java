@@ -66,9 +66,12 @@ public class WinListScreen extends ScreenAdapter {
             }
             font.draw(main.batch, i.result.playerScore + " - " + i.result.enemyScore, i.x - 50, i.y + 50 + scrollY);
         }
-        font.draw(main.batch, "All : " + (main.totalWins + main.totalLoses), SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 345);
-        font.draw(main.batch, "Wins : " + main.totalWins, SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 300);
-        font.draw(main.batch, "Loses : " + main.totalLoses, SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 255);
+        font.draw(main.batch, "All : " + (main.totalWins + main.totalLoses),
+            SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 345);
+        font.draw(main.batch, "Wins : " + main.totalWins,
+            SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 300);
+        font.draw(main.batch, "Loses : " + main.totalLoses,
+            SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 255);
         float coeff = (main.totalLoses != 0 ? (float)main.totalWins / main.totalLoses : 0);
         DecimalFormat df = new DecimalFormat("0.##");
         String coedS = df.format(coeff);
@@ -78,9 +81,10 @@ public class WinListScreen extends ScreenAdapter {
         main.batch.end();
     }
     private void handleInput() {
-        if (Gdx.input.isTouched()) { // касиение хоть когда
+        if (Gdx.input.isTouched()) { // касание хоть когда
             float newscrollY = scrollY - Gdx.input.getDeltaY();
-            if (SCREEN_HEIGHT / 2 + 150 + newscrollY >= SCREEN_HEIGHT / 2 + 150 && SCREEN_HEIGHT / 2 + 150 - 200 * dysplay.size() + newscrollY < 100) {
+            if (SCREEN_HEIGHT / 2 + 150 + newscrollY >= SCREEN_HEIGHT / 2 + 150 &&
+                SCREEN_HEIGHT / 2 + 150 - 200 * dysplay.size() + newscrollY < 100) {
                 scrollY = newscrollY;
             }
         }
