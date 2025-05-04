@@ -1,12 +1,9 @@
 package io.github.beachball;
 
-import static io.github.beachball.GameSettings.BUTTON_IMG_PATH;
-import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 import static io.github.beachball.GameSettings.SCREEN_HEIGHT;
 import static io.github.beachball.GameSettings.SCREEN_WIDTH;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
@@ -59,11 +56,11 @@ public class MenuScreen extends ScreenAdapter {
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             if(startButton.isHit(main.touch.x, main.touch.y)) {
                 if (main.mode) {
-                    main.gameScreenOne = new GameScreenOne(main);
-                    main.setScreen(main.gameScreenOne);
-                } else {
                     main.gameScreenTwo = new GameScreenTwo(main);
                     main.setScreen(main.gameScreenTwo);
+                } else {
+                    main.gameScreenOne = new GameScreenOne(main);
+                    main.setScreen(main.gameScreenOne);
                 }
             }
             if(exitButton.isHit(main.touch.x, main.touch.y)) {

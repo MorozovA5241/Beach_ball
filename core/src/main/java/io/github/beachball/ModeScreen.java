@@ -20,7 +20,7 @@ public class ModeScreen extends ScreenAdapter {
     public ModeScreen(Main main) {
         this.main = main;
         modeOneButton = new ButtonView(SCREEN_WIDTH/2 - 500, SCREEN_HEIGHT/2 - 100, 250, 250, "modeOne.png");
-        modeTwoButton = new ButtonView(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/2 - 200, 300, 300, "modeTwo.png");
+        modeTwoButton = new ButtonView(SCREEN_WIDTH/2 + 200, SCREEN_HEIGHT/2 - 135, 300, 300, "modeTwo.png");
     }
 
     public void render(float delta) {
