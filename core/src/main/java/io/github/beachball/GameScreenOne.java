@@ -2,33 +2,20 @@ package io.github.beachball;
 
 import static io.github.beachball.GameSettings.BAFFLE_BIT;
 import static io.github.beachball.GameSettings.BALL_BIT;
-import static io.github.beachball.GameSettings.BALL_IMAGE_PATH;
-import static io.github.beachball.GameSettings.BUTTON_IMG_PATH;
 import static io.github.beachball.GameSettings.FLOOR_BIT;
-import static io.github.beachball.GameSettings.LEFTBUTTON_IMAGE_PATH;
 import static io.github.beachball.GameSettings.OBJECT_HEIGHT;
 import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 import static io.github.beachball.GameSettings.OBJECT_WIDTH;
 import static io.github.beachball.GameSettings.PLAYER_BIT;
-import static io.github.beachball.GameSettings.PLAYER_IMAGE_PATH;
-import static io.github.beachball.GameSettings.RIGHTBUTTON_IMAGE_PATH;
-import static io.github.beachball.GameSettings.SCALE;
 import static io.github.beachball.GameSettings.SCREEN_HEIGHT;
 import static io.github.beachball.GameSettings.SCREEN_WIDTH;
-import static io.github.beachball.GameSettings.OBJECT_IMG_PATH;
 import static io.github.beachball.GameSettings.SIMPLE_BIT;
-import static io.github.beachball.GameSettings.UPBUTTON_IMAGE_PATH;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import io.github.beachball.components.ButtonView;
@@ -38,7 +25,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont; // что бы шерифт б�
 
 import java.util.HashSet;
 
-public class GameScreen extends ScreenAdapter {
+public class GameScreenOne extends ScreenAdapter {
     Main main;
     GameObject gameObject;
     StaticGameObject box;
@@ -59,9 +46,8 @@ public class GameScreen extends ScreenAdapter {
     BitmapFont font;
     public boolean moved = false;
     HashSet<Integer> activePointers = new HashSet<>(); // для мультитача
-    public GameScreen(Main main) {
+    public GameScreenOne(Main main) {
         this.main = main;
-
         contactManager = new ContactManager(main.world);
 
         gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
@@ -71,7 +57,6 @@ public class GameScreen extends ScreenAdapter {
         leftButton = new ButtonView(160, 60, 200, 200, "right.png");
         wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 700, main.world, "Setka.png", SIMPLE_BIT);
         ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
-        //topSideWall = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 3000, 80, main.world, OBJECT_IMG_PATH, SIMPLE_BIT); //под вопросом
         leftSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
         rightSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, "rightSideWall.png", SIMPLE_BIT);
         baffle = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 20, 1500, main.world, "Setka.png", BAFFLE_BIT);
@@ -117,7 +102,6 @@ public class GameScreen extends ScreenAdapter {
             checkWin(check);
             main.world.destroyBody(ball.body);
             ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
-
         }
         for (int i = 0; i < 10; i++) {
             handleJumpInput(i);
@@ -189,7 +173,8 @@ public class GameScreen extends ScreenAdapter {
                 playerScore = 0;
                 enemyScore = 0;
                 check = false;
-                main.setScreen(new ResultScreen(main, true));
+                destroyAllBodies(main.world);
+                main.setScreen(new ResultScreen(main, true, -1));
             } else {
                 if (enemyScore - playerScore >= 2) {
                     if (main.history.size() >= 20) {
@@ -201,7 +186,8 @@ public class GameScreen extends ScreenAdapter {
                     playerScore = 0;
                     enemyScore = 0;
                     check = false;
-                    main.setScreen(new ResultScreen(main, false));
+                    destroyAllBodies(main.world);
+                    main.setScreen(new ResultScreen(main, false, -1));
                 }
             }
         } else {
@@ -215,7 +201,8 @@ public class GameScreen extends ScreenAdapter {
                 playerScore = 0;
                 enemyScore = 0;
                 check = false;
-                main.setScreen(new ResultScreen(main, true));
+                destroyAllBodies(main.world);
+                main.setScreen(new ResultScreen(main, true, -1));
             } else if (enemyScore >= WIN_SCORE) {
                 if (main.history.size() >= 20) {
                     main.history.removeFirst();
@@ -226,8 +213,40 @@ public class GameScreen extends ScreenAdapter {
                 playerScore = 0;
                 enemyScore = 0;
                 check = false;
-                main.setScreen(new ResultScreen(main, false));
+                destroyAllBodies(main.world);
+                main.setScreen(new ResultScreen(main, false, -1));
             }
         }
+    }
+
+    private void destroyAllBodies(World world) {
+        main.world.destroyBody(ball.body);
+        main.world.destroyBody(gameObject.body);
+        main.world.destroyBody(box.body);
+        main.world.destroyBody(leftSideWall.body);
+        main.world.destroyBody(rightSideWall.body);
+        main.world.destroyBody(wall.body);
+        main.world.destroyBody(baffle.body);
+        gameObject = new GameObject(-2500, 200, 0, 0 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
+        box = new StaticGameObject(-2500, 10, 0, 0, main.world, OBJECT_IMG_PATH, FLOOR_BIT);// делаем статический объект
+        wall = new StaticGameObject(-2500, 30, 0, 0, main.world, "Setka.png", SIMPLE_BIT);
+        ball = new GameObject(-2500, 600, 0, 0, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
+        leftSideWall = new StaticGameObject(-2500, SCREEN_HEIGHT / 2, 0, 0, main.world, "leftSideWall.png", SIMPLE_BIT);
+        rightSideWall = new StaticGameObject(-2500, SCREEN_HEIGHT / 2, 0, 0, main.world, "rightSideWall.png", SIMPLE_BIT);
+        baffle = new StaticGameObject(-2500, SCREEN_HEIGHT / 2, 0, 0, main.world, "Setka.png", BAFFLE_BIT);
+    }
+
+    @Override
+    public void dispose() {
+        destroyAllBodies(main.world);
+        box.dispose();
+        rightButton.dispose();
+        jumpButton.dispose();
+        leftButton.dispose();
+        wall.dispose();
+        leftSideWall.dispose();
+        rightSideWall.dispose();
+        baffle.dispose();
+        font.dispose();
     }
 }

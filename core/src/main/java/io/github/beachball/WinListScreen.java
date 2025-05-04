@@ -22,7 +22,6 @@ import com.badlogic.gdx.graphics.GL20;
 
 import java.util.LinkedList;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont; // что бы шерифт был
 
 import java.text.DecimalFormat; // для вывода коэффицента
 
