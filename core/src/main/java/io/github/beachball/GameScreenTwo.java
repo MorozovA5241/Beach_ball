@@ -78,7 +78,7 @@ public class GameScreenTwo extends ScreenAdapter {
         rightSideWall.draw(main.batch);
         leftSideWall.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
-        ball.applyForce(35); // чтобы мячик был легче
+        ball.applyForce(20); // чтобы мячик был легче
 
         if (ball.needSetPositionOne == true) {
             Score++;

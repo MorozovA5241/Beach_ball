@@ -24,7 +24,7 @@ public class GameSettings {
 
     public static final String OBJECT_IMG_PATH = "smileface.png";
     public static final String BUTTON_IMG_PATH = "button.png";
-    public static final String BALL_IMAGE_PATH = "ball.jpg";
+    public static final String BALL_IMAGE_PATH = "ball.png";
     public static final String PLAYER_IMAGE_PATH = "bluePlayer.png";
     public static final String LEFTBUTTON_IMAGE_PATH = "left.png";
     public static final String RIGHTBUTTON_IMAGE_PATH = "right.png";
