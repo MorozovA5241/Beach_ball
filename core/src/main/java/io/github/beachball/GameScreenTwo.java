@@ -13,6 +13,7 @@ import static io.github.beachball.GameSettings.SIMPLE_BIT;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -41,6 +42,7 @@ public class GameScreenTwo extends ScreenAdapter {
     HashSet<Integer> activePointers = new HashSet<>(); // для мультитача
     public GameScreenTwo(Main main) {
         this.main = main;
+        main.world = new World(new Vector2(0, -90), true);
         Score = 0;
         contactManager = new ContactManager(main.world);
 

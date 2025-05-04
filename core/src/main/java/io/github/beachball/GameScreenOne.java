@@ -14,6 +14,7 @@ import static io.github.beachball.GameSettings.SIMPLE_BIT;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -48,6 +49,7 @@ public class GameScreenOne extends ScreenAdapter {
     HashSet<Integer> activePointers = new HashSet<>(); // для мультитача
     public GameScreenOne(Main main) {
         this.main = main;
+        main.world = new World(new Vector2(0, -90), true);
         contactManager = new ContactManager(main.world);
 
         gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
