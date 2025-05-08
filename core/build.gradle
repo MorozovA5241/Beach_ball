@@ -12,6 +12,9 @@ dependencies {
   implementation 'org.slf4j:slf4j-api:1.7.36'
   implementation 'org.slf4j:slf4j-simple:1.7.36'
 
+  implementation 'com.google.code.gson:gson:2.10.1'
+  implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }

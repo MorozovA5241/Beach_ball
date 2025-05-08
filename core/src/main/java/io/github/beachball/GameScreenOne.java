@@ -40,6 +40,7 @@ public class GameScreenOne extends ScreenAdapter {
     ButtonView leftButton;
     ButtonView jumpButton;
     ContactManager contactManager;
+    GameObject enemy;
     boolean check = false; // Что-бы играть до разнице в очках
     int playerScore = 0;
     int enemyScore = 0;
@@ -62,6 +63,7 @@ public class GameScreenOne extends ScreenAdapter {
         leftSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
         rightSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, "rightSideWall.png", SIMPLE_BIT);
         baffle = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 20, 1500, main.world, "Setka.png", BAFFLE_BIT);
+        enemy= new GameObject(SCREEN_WIDTH / 2 + 200, 200, 200, 200 , main.world, "bluePlayer.png", PLAYER_BIT, 1f, 1f, 0f);
         font = new BitmapFont();
         font.getData().setScale(2);
     }
@@ -80,7 +82,7 @@ public class GameScreenOne extends ScreenAdapter {
         leftButton.draw(main.batch);
         jumpButton.draw(main.batch);
         main.batch.setColor(1, 1, 1, 1); // прозрачность
-
+        enemy.draw(main.batch);
         box.draw(main.batch);
         wall.draw(main.batch);
         ball.draw(main.batch);
@@ -109,6 +111,7 @@ public class GameScreenOne extends ScreenAdapter {
             handleJumpInput(i);
             handleInput(i);
         }
+        enemyLogics();
         if (!moved) {
             gameObject.move(0);
         }
@@ -219,6 +222,17 @@ public class GameScreenOne extends ScreenAdapter {
                 main.setScreen(new ResultScreen(main, false, -1));
             }
         }
+    }
+
+    private void enemyLogics(){
+        if(ball.getX() < enemy.getX()-40){
+            enemy.move(-10);
+        }
+        else{
+            enemy.move(10);
+        }
+        if(ball.getY() - enemy.getY() <= 120)
+            enemy.jump();
     }
 
     private void destroyAllBodies(World world) {
