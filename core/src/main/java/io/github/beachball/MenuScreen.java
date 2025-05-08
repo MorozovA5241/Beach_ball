@@ -19,13 +19,13 @@ public class MenuScreen extends ScreenAdapter {
     ButtonView exitButton;
     ButtonView listButton;
     ButtonView rulesButton;
-    ButtonView modeButton;
+    ButtonView modeButtonTwo;
     ButtonView modeButtonOne;
 
     public MenuScreen(Main main) {
         this.main = main;
         modeButtonOne = new ButtonView(SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 + 40, 150, 150, "modeOne.png");
-        modeButton = new ButtonView(SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 + 40, 150, 150, "modeTwo.png");
+        modeButtonTwo = new ButtonView(SCREEN_WIDTH / 2 - 450, SCREEN_HEIGHT / 2 + 40, 150, 150, "modeTwo.png");
         startButton = new ButtonView(SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT/2 + 20, 400, 300, "Button_Play.png");
         exitButton = new ButtonView(SCREEN_WIDTH/2 - 600, SCREEN_HEIGHT/2 - 250, 200, 100, "Exit.png");
         listButton = new ButtonView(SCREEN_WIDTH/2 + 100, SCREEN_HEIGHT/2 - 300, 200, 300, "ListOfMaches.png");
@@ -33,7 +33,6 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     public void render(float delta){
-
         main.cam.update();
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
@@ -41,14 +40,13 @@ public class MenuScreen extends ScreenAdapter {
         if (main.mode) {
             modeButtonOne.draw(main.batch);
         } else {
-            modeButton.draw(main.batch);
+            modeButtonTwo.draw(main.batch);
         }
         startButton.draw(main.batch);
         exitButton.draw(main.batch);
         listButton.draw(main.batch);
         rulesButton.draw(main.batch);
         main.batch.end();
-
         handleInput();
     }
     private void handleInput(){
@@ -73,7 +71,7 @@ public class MenuScreen extends ScreenAdapter {
             if(rulesButton.isHit(main.touch.x, main.touch.y)) {
                 main.setScreen(new RulesScreen(main));
             }
-            if(modeButton.isHit(main.touch.x, main.touch.y)) {
+            if(modeButtonTwo.isHit(main.touch.x, main.touch.y)) {
                 main.setScreen(new ModeScreen(main));
             }
         }
