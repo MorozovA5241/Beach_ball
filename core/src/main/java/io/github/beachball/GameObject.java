@@ -76,7 +76,7 @@ public class GameObject {
     public void jump() {
         if (jumps < 2) {
             jumps++;
-            body.applyForceToCenter(0, 19000, true);
+            body.applyForceToCenter(0, 21000, true);
         }
     }
 

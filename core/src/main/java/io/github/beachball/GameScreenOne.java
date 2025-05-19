@@ -95,17 +95,19 @@ public class GameScreenOne extends ScreenAdapter {
         ball.applyForce(15); // чтобы мячик был легче
 
         if (ball.needSetPosition == true) {
+            main.world.destroyBody(ball.body);
             if (ball.getX() < SCREEN_WIDTH / 2) {
                 enemyScore++;
+                ball = new GameObject(SCREEN_WIDTH/2 + 100, 500, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
             } else {
                 playerScore++;
+                ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
             }
             if (enemyScore == playerScore && enemyScore == 10) {
                 check = true;
             }
             checkWin(check);
-            main.world.destroyBody(ball.body);
-            ball = new GameObject(SCREEN_WIDTH/2 - 100, 500, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
+
         }
         for (int i = 0; i < 10; i++) {
             handleJumpInput(i);
@@ -226,10 +228,10 @@ public class GameScreenOne extends ScreenAdapter {
 
     private void enemyLogics(){
         if(ball.getX() < enemy.getX()-40){
-            enemy.move(-10);
+            enemy.move(-15);
         }
         else{
-            enemy.move(10);
+            enemy.move(15);
         }
         if(ball.getY() - enemy.getY() <= 120)
             enemy.jump();
