@@ -35,6 +35,7 @@ public class ResultScreen extends ScreenAdapter {
         this.Win = Win;
         this.Score = Score;
         font = new BitmapFont();
+        font.getData().setScale(3f);
         homeButton = new ButtonView(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - 300, 200, 200, "Home.png");
     }
 
@@ -55,7 +56,7 @@ public class ResultScreen extends ScreenAdapter {
                     400, 300);
             }
         } else {
-            font.draw(main.batch, "Score : " + Score, SCREEN_WIDTH/2,
+            font.draw(main.batch, "Score : " + Score, SCREEN_WIDTH/2 - 100,
                 SCREEN_HEIGHT/2 + 295);
         }
         homeButton.draw(main.batch);

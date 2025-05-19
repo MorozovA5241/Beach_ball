@@ -14,6 +14,7 @@ import static io.github.beachball.GameSettings.SIMPLE_BIT;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
@@ -92,7 +93,7 @@ public class GameScreenOne extends ScreenAdapter {
         rightSideWall.draw(main.batch);
         leftSideWall.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
-        ball.applyForce(15); // чтобы мячик был легче
+        ball.applyForce(35); // чтобы мячик был легче
 
         if (ball.needSetPosition == true) {
             main.world.destroyBody(ball.body);
@@ -129,7 +130,7 @@ public class GameScreenOne extends ScreenAdapter {
                 touchMove = true;
             }
             if (leftButton.isHit(main.touch.x, main.touch.y)) {
-                gameObject.move(25);
+                gameObject.move(35);
                 moved = true;
                 touchMove = true;
             }
@@ -172,9 +173,9 @@ public class GameScreenOne extends ScreenAdapter {
         if (flag) {
             if (playerScore - enemyScore >= 2) {
                 if (main.history.size() >= 20) {
-                    main.history.removeFirst();
+                    main.history.removeLast();
                 }
-                main.history.add(new MatchResult(true, playerScore, enemyScore));
+                main.history.addFirst(new MatchResult(true, playerScore, enemyScore));
                 main.totalWins++;
                 main.saveHistory();
                 playerScore = 0;
@@ -185,9 +186,9 @@ public class GameScreenOne extends ScreenAdapter {
             } else {
                 if (enemyScore - playerScore >= 2) {
                     if (main.history.size() >= 20) {
-                        main.history.removeFirst();
+                        main.history.removeLast();
                     }
-                    main.history.add(new MatchResult(false, playerScore, enemyScore));
+                    main.history.addFirst(new MatchResult(false, playerScore, enemyScore));
                     main.totalLoses++;
                     main.saveHistory();
                     playerScore = 0;
@@ -200,9 +201,9 @@ public class GameScreenOne extends ScreenAdapter {
         } else {
             if (playerScore >= WIN_SCORE) {
                 if (main.history.size() >= 20) {
-                    main.history.removeFirst();
+                    main.history.removeLast();
                 }
-                main.history.add(new MatchResult(true, playerScore, enemyScore));
+                main.history.addFirst(new MatchResult(true, playerScore, enemyScore));
                 main.totalWins++;
                 main.saveHistory();
                 playerScore = 0;
@@ -212,9 +213,9 @@ public class GameScreenOne extends ScreenAdapter {
                 main.setScreen(new ResultScreen(main, true, -1));
             } else if (enemyScore >= WIN_SCORE) {
                 if (main.history.size() >= 20) {
-                    main.history.removeFirst();
+                    main.history.removeLast();
                 }
-                main.history.add(new MatchResult(false, playerScore, enemyScore));
+                main.history.addFirst(new MatchResult(false, playerScore, enemyScore));
                 main.totalLoses++;
                 main.saveHistory();
                 playerScore = 0;

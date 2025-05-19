@@ -13,6 +13,7 @@ import static io.github.beachball.GameSettings.SIMPLE_BIT;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
@@ -42,6 +43,7 @@ public class GameScreenTwo extends ScreenAdapter {
     public boolean moved = false;
     int isPause = -1;
     HashSet<Integer> activePointers = new HashSet<>(); // для мультитача
+    boolean Scoreline = false;
     public GameScreenTwo(Main main) {
         this.main = main;
         main.world = new World(new Vector2(0, -90), true);
@@ -53,7 +55,7 @@ public class GameScreenTwo extends ScreenAdapter {
         rightButton = new ButtonView(0, 60, 200, 200, "left.png");
         jumpButton = new ButtonView(1100, 60, 200, 200, "up.png");
         leftButton = new ButtonView(160, 60, 200, 200, "right.png");
-        pauseButton = new ButtonView(1100, SCREEN_HEIGHT - 100, 200, 200, "sticker.png");
+        pauseButton = new ButtonView(SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, 200, 200, "Pause.png");
         ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
         //topSideWall = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 3000, 80, main.world, OBJECT_IMG_PATH, SIMPLE_BIT); //под вопросом
         leftSideWall = new StaticGameObject(300, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
@@ -77,6 +79,8 @@ public class GameScreenTwo extends ScreenAdapter {
         leftButton.draw(main.batch);
         jumpButton.draw(main.batch);
         pauseButton.draw(main.batch);
+        Texture texture = new Texture("LineScore.png");
+        main.batch.draw(texture, SCREEN_WIDTH / 2 - 370, SCREEN_HEIGHT / 2 + 200, 730,50);
         main.batch.setColor(1, 1, 1, 1); // прозрачность
 
         box.draw(main.batch);
@@ -87,9 +91,13 @@ public class GameScreenTwo extends ScreenAdapter {
         main.batch.end(); // рендер(прорисовка кадра)
         ball.applyForce(35); // чтобы мячик был легче
         handlePauseInput();
-        if (ball.needSetPositionOne == true) {
+        if (ball.getY() >= SCREEN_HEIGHT / 2 + 200 && Scoreline == false) {
             Score++;
+            Scoreline = true;
             ball.needSetPositionOne = false;
+        }
+        if (ball.getY() < SCREEN_HEIGHT / 2 + 200) {
+            Scoreline = false;
         }
         if (ball.needSetPosition == true) {
             ball.needSetPosition = false;
