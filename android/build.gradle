@@ -6,7 +6,7 @@ buildscript {
   }
 }
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 
 android {
   namespace "io.github.beachball"
@@ -32,11 +32,16 @@ android {
   }
   defaultConfig {
     applicationId 'io.github.beachball'
-    minSdkVersion 19
+    minSdkVersion 21
     targetSdkVersion 34
     versionCode 1
     versionName "1.0"
     multiDexEnabled true
+    externalNativeBuild {
+      cmake {
+        cppFlags ''
+      }
+    }
   }
   compileOptions {
     sourceCompatibility "8"
@@ -49,6 +54,12 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  externalNativeBuild {
+    cmake {
+      path file('src/main/cpp/CMakeLists.txt')
+      version '3.22.1'
+    }
+  }
 }
 
 repositories {
@@ -59,9 +70,13 @@ repositories {
 configurations { natives }
 
 dependencies {
+  implementation 'com.google.firebase:firebase-common:21.0.0'
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
   implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
   implementation project(':core')
+  implementation platform('com.google.firebase:firebase-bom:32.7.3') // актуальная BOM
+  implementation 'com.google.firebase:firebase-auth:22.1.0' // для регистрации/логина
+  implementation 'com.google.firebase:firebase-database'
 
   natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
   natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
@@ -128,3 +143,5 @@ tasks.register('run', Exec) {
 }
 
 eclipse.project.name = appName + "-android"
+
+apply plugin: 'com.google.gms.google-services'
