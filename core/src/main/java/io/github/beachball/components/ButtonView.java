@@ -3,7 +3,7 @@ package io.github.beachball.components;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class ButtonView extends View{
+public class ButtonView extends MyView {
 
     Texture texture;
 
