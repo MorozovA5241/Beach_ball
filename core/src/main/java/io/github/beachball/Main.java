@@ -65,6 +65,7 @@ public class Main extends Game {
         save.history = history;
         save.totalLosses = totalLoses;
         save.totalWins = totalWins;
+        save.BestScore = BestScore;
         Json json = new Json();
         FileHandle file = Gdx.files.local("history.json");
         file.writeString(json.toJson(save), false);
@@ -77,10 +78,12 @@ public class Main extends Game {
             history =  save.history;
             totalWins = save.totalWins;
             totalLoses = save.totalLosses;
+            BestScore = save.BestScore;
         } else {
             history = new LinkedList<>();
             totalLoses = 0;
             totalWins = 0;
+            BestScore = 0;
         }
     }
 

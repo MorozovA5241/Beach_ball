@@ -6,4 +6,5 @@ public class saveData { // класс в котором буду сохраня�
     public LinkedList<MatchResult> history;
     public int totalWins;
     public int totalLosses;
+    public int BestScore;
 }
