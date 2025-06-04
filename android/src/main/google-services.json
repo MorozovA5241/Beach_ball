@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "959459261624",
+    "project_id": "beachball-b1fd4",
+    "storage_bucket": "beachball-b1fd4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959459261624:android:87997116e3a767054a884d",
+        "android_client_info": {
+          "package_name": "io.github.beachball"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI6BSWBxfYh6SmIlCkJyb5UQwEhACsuCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

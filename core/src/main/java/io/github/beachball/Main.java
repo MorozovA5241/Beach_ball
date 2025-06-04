@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.files.FileHandle; // для истории матчей
 
+import io.github.beachball.AuthInterface;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
@@ -44,7 +45,7 @@ public class Main extends Game {
     public int totalWins = 0;
     public int totalLoses = 0;
     public boolean mode = false;
-    public int BestScore = 0;
+
 
     @Override
     public void create() {
@@ -56,8 +57,9 @@ public class Main extends Game {
         cam.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);// настройка камеры
         batch = new SpriteBatch(); // штука чтобы отрисовать модель
 
+        setScreen(new AuthScreen(this, authInterface));
+
         menuScreen = new MenuScreen(this);
-        setScreen(menuScreen);//ставим экраy
     }
 
     public void saveHistory() { //сохранение истории в файл
@@ -69,7 +71,6 @@ public class Main extends Game {
         FileHandle file = Gdx.files.local("history.json");
         file.writeString(json.toJson(save), false);
     }
-
     public void loadHistory() { //загрузка при входе обратно из файла
         FileHandle file = Gdx.files.local("history.json");
         if (file.exists()) {
@@ -88,6 +89,10 @@ public class Main extends Game {
     public void dispose() {
         batch.dispose();
         batch1.dispose();       // удаление не нужных объектов работает само
+    }
+
+    public void setToGameScreen() {
+        setScreen(new MenuScreen(this)); // или MenuScreen, как хочешь
     }
 
     public void stepWorld() {
