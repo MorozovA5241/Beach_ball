@@ -50,7 +50,7 @@ public class GameScreenTwo extends ScreenAdapter {
         Score = 0;
         contactManager = new ContactManager(main.world);
 
-        gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
+        gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "bluePlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
         box = new StaticGameObject(SCREEN_WIDTH, 10, OBJECT_WIDTH+ 100000, OBJECT_HEIGHT - 80, main.world, OBJECT_IMG_PATH, FLOOR_BIT);// делаем статический объект
         rightButton = new ButtonView(0, 60, 200, 200, "left.png");
         jumpButton = new ButtonView(1100, 60, 200, 200, "up.png");

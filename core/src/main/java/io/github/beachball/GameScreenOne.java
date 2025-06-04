@@ -56,7 +56,7 @@ public class GameScreenOne extends ScreenAdapter {
         main.world = new World(new Vector2(0, -90), true);
         contactManager = new ContactManager(main.world);
 
-        gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
+        gameObject = new GameObject(SCREEN_WIDTH / 2 - 200, 200, 200, 200 , main.world, "bluePlayer.png", PLAYER_BIT, 1f, 1f, 0f); // делаем динамический объект
         box = new StaticGameObject(SCREEN_WIDTH, 10, OBJECT_WIDTH+ 100000, OBJECT_HEIGHT - 80, main.world, OBJECT_IMG_PATH, FLOOR_BIT);// делаем статический объект
         rightButton = new ButtonView(0, 60, 200, 200, "left.png");
         jumpButton = new ButtonView(1100, 60, 200, 200, "up.png");
@@ -67,7 +67,7 @@ public class GameScreenOne extends ScreenAdapter {
         leftSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
         rightSideWall = new StaticGameObject(SCREEN_WIDTH, SCREEN_HEIGHT / 2, 3, 5500, main.world, "rightSideWall.png", SIMPLE_BIT);
         baffle = new StaticGameObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 20, 1500, main.world, "Setka.png", BAFFLE_BIT);
-        enemy= new GameObject(SCREEN_WIDTH / 2 + 200, 200, 200, 200 , main.world, "bluePlayer.png", PLAYER_BIT, 1f, 1f, 0f);
+        enemy= new GameObject(SCREEN_WIDTH / 2 + 200, 200, 200, 200 , main.world, "redPlayer.png", PLAYER_BIT, 1f, 1f, 0f);
         font = new BitmapFont();
         font.getData().setScale(2);
     }
