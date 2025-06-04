@@ -40,12 +40,14 @@ public class GameScreenOne extends ScreenAdapter {
     ButtonView rightButton;
     ButtonView leftButton;
     ButtonView jumpButton;
+    ButtonView pauseButton;
     ContactManager contactManager;
     GameObject enemy;
     boolean check = false; // Что-бы играть до разнице в очках
     int playerScore = 0;
     int enemyScore = 0;
     final int WIN_SCORE = 11;
+    int isPause = -1;
     BitmapFont font;
     public boolean moved = false;
     HashSet<Integer> activePointers = new HashSet<>(); // для мультитача
@@ -59,6 +61,7 @@ public class GameScreenOne extends ScreenAdapter {
         rightButton = new ButtonView(0, 60, 200, 200, "left.png");
         jumpButton = new ButtonView(1100, 60, 200, 200, "up.png");
         leftButton = new ButtonView(160, 60, 200, 200, "right.png");
+        pauseButton = new ButtonView(SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, 200, 200, "Pause.png");
         wall = new StaticGameObject(SCREEN_WIDTH/2, 30, 20, 700, main.world, "Setka.png", SIMPLE_BIT);
         ball = new GameObject(SCREEN_WIDTH/2 - 100, 600, 60, 60, main.world, "ball.png", BALL_BIT, 1.0f, 1.0f, 1.4f);
         leftSideWall = new StaticGameObject(0, SCREEN_HEIGHT / 2, 3, 5500, main.world, "leftSideWall.png", SIMPLE_BIT);
@@ -71,8 +74,10 @@ public class GameScreenOne extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        main.stepWorld();
-
+        if(isPause == -1) {
+            main.stepWorld();
+            ball.applyForce(15);
+        }
         main.cam.update();
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
@@ -82,6 +87,7 @@ public class GameScreenOne extends ScreenAdapter {
         rightButton.draw(main.batch);
         leftButton.draw(main.batch);
         jumpButton.draw(main.batch);
+        pauseButton.draw(main.batch);
         main.batch.setColor(1, 1, 1, 1); // прозрачность
         enemy.draw(main.batch);
         box.draw(main.batch);
@@ -93,8 +99,8 @@ public class GameScreenOne extends ScreenAdapter {
         rightSideWall.draw(main.batch);
         leftSideWall.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
-        ball.applyForce(15); // чтобы мячик был легче
 
+        handlePauseInput();
         if (ball.needSetPosition == true) {
             main.world.destroyBody(ball.body);
             if (ball.getX() < SCREEN_WIDTH / 2) {
@@ -236,6 +242,16 @@ public class GameScreenOne extends ScreenAdapter {
         }
         if(ball.getY() - enemy.getY() <= 120)
             enemy.jump();
+    }
+
+    private void handlePauseInput() {
+        if (Gdx.input.justTouched()) {
+            main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            if (pauseButton.isHit(main.touch.x, main.touch.y)) {
+                isPause *= -1;
+            }
+
+        }
     }
 
     private void destroyAllBodies(World world) {

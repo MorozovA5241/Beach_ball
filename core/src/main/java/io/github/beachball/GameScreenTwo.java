@@ -42,7 +42,6 @@ public class GameScreenTwo extends ScreenAdapter {
     BitmapFont font;
     public boolean moved = false;
     int isPause = -1;
-    float ySpeed;
     HashSet<Integer> activePointers = new HashSet<>(); // для мультитача
     boolean Scoreline = false;
     public GameScreenTwo(Main main) {
@@ -67,9 +66,11 @@ public class GameScreenTwo extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        if(isPause == -1)
+        if(isPause == -1) {
             main.stepWorld();
-        ySpeed = ball.body.getLinearVelocity().y;
+            ball.applyForce(15); // чтобы мячик был легче
+        }
+
         main.cam.update();
         main.batch.setProjectionMatrix(main.cam.combined);
         ScreenUtils.clear(Color.CLEAR);
@@ -90,7 +91,7 @@ public class GameScreenTwo extends ScreenAdapter {
         rightSideWall.draw(main.batch);
         leftSideWall.draw(main.batch);
         main.batch.end(); // рендер(прорисовка кадра)
-        ball.applyForce(15); // чтобы мячик был легче
+
         handlePauseInput();
         if (ball.getY() >= SCREEN_HEIGHT / 2 + 200 && Scoreline == false) {
             Score++;
@@ -158,7 +159,6 @@ public class GameScreenTwo extends ScreenAdapter {
             main.touch = main.cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             if (pauseButton.isHit(main.touch.x, main.touch.y)) {
                 isPause *= -1;
-                ball.body.setLinearVelocity(ball.body.getLinearVelocity().x, ySpeed);
             }
 
         }
