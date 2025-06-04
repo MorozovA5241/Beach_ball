@@ -76,7 +76,7 @@ public class WinListScreen extends ScreenAdapter {
         DecimalFormat df = new DecimalFormat("0.##");
         String coedS = df.format(coeff);
         font.draw(main.batch, "Coefficient : " + coedS, SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 210);
-
+        font.draw(main.batch, "Best Score : " + main.BestScore, SCREEN_WIDTH/2 + 400, SCREEN_HEIGHT/2 + 165);
         handleInput();
         main.batch.end();
     }

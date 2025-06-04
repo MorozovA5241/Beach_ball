@@ -68,7 +68,7 @@ public class GameScreenTwo extends ScreenAdapter {
     public void render(float delta) {
         if(isPause == -1) {
             main.stepWorld();
-            ball.applyForce(15); // чтобы мячик был легче
+            ball.applyForce(15);
         }
 
         main.cam.update();
@@ -96,7 +96,6 @@ public class GameScreenTwo extends ScreenAdapter {
         if (ball.getY() >= SCREEN_HEIGHT / 2 + 200 && Scoreline == false) {
             Score++;
             Scoreline = true;
-            ball.needSetPositionOne = false;
         }
         if (ball.getY() < SCREEN_HEIGHT / 2 + 200) {
             Scoreline = false;

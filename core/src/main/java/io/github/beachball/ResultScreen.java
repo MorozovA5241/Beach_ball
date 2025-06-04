@@ -56,6 +56,7 @@ public class ResultScreen extends ScreenAdapter {
                     400, 300);
             }
         } else {
+            main.BestScore = Math.max(main.BestScore, Score);
             font.draw(main.batch, "Score : " + Score, SCREEN_WIDTH/2 - 100,
                 SCREEN_HEIGHT/2 + 295);
         }
